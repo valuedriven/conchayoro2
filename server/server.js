@@ -1,7 +1,7 @@
 const express = require("express");
 const bodyParser = require("body-parser");
-const cors = require("cors"); // Connect/Express module
-const db = require("./app/models");
+const cors = require("cors"); // Express module
+const db = require("./src/models");
 const host = "localhost";
 const port = "8080";
 
@@ -23,11 +23,11 @@ db.sequelize.sync();
 
 // simple route
 app.get("/", (req, res) => {
-  res.json({ message: "Welcome to pnev application." });
+  res.json({ message: "Bem-vindo(a) a ConchayOro." });
 });
 
 // set port, listen for requests
-require("./app/routes/tutorial.routes")(app);
+require("./src/routes/produto.routes")(app);
 const PORT = process.env.PORT || 8080;
 app.listen(PORT, () => {
   console.log(`Server is running on port ${PORT}.`);
