@@ -1,10 +1,7 @@
 import axios from "axios";
 
-const host = 'localhost';
-const port = '8080'
-
 export default axios.create({
-  baseURL: "http://"+host+":"+port+"/api",
+  baseURL: `http://${process.env.VUE_APP_SERVER_HOST}:${process.env.VUE_APP_SERVER_PORT}/api`,
   headers: {
     "Content-type": "application/json"
   }

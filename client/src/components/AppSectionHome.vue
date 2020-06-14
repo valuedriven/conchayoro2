@@ -4,11 +4,10 @@
 
     <div class="container">
        <div class="row">
-           <div class="col-5 text-center principal-news"> 
+           <div class="col-5 text-center principal-news">  
           </div>
           <div class="col-5 offset-2 text-center principal-news">
               <h2>Bem-vindo!!</h2>
-
               <h4>Aqui você encontra informações relativas ao projeto da Vinícola ConchayOro </h4>
           </div>
 
@@ -21,18 +20,18 @@
 </template>
 
 <script>
-export default {};
+export default {
+
+}
 </script>
 
 <style scoped>
 section {
   margin-top: 25px;
 }
-
 .container .row {
   height: 300px;
 }
-
 .container .row .col-5:first-child {
   background-color: rgba(0, 0, 0, 0.5);
   background-image: url('../assets/wine_picture.jpg');
@@ -41,7 +40,6 @@ section {
 }
 
 .container .row .col-5:nth-child(2) {
-  /*background: url('../assets/wine_picture.jpg') no-repeat; */
   background-size: 100%;
 }
 

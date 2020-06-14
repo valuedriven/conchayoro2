@@ -3,22 +3,23 @@ const Produto = db.produtos;
 const Op = db.Sequelize.Op;
 
 exports.create = (req, res) => {
-    // Validate request
+    //validar requisição
     console.log(req.body);
     if (!req.body.nome) {
       res.status(400).send({
-        message: "Content can not be empty!"
+        message: "Conteúdo não pode ser vazio!"
       });
       return;
     }
   
+    //criar objeto
     const produto = {
       nome: req.body.nome,
       unidade: req.body.unidade,
       tipoProduto: req.body.tipoProduto,
       precoUnitario: req.body.precoUnitario
     };
-  
+      
     Produto.create(produto)
       .then(data => {
         res.send(data);
@@ -26,7 +27,7 @@ exports.create = (req, res) => {
       .catch(err => {
         res.status(500).send({
           message:
-            err.message || "Some error occurred while creating the Produto."
+            err.message || "Erros ocorreram ao criar um produto."
         });
       });
 };
@@ -43,12 +44,11 @@ exports.findAll = (req, res) => {
       .catch(err => {
         res.status(500).send({
           message:
-            err.message || "Some error occurred while retrieving Produtos."
+            err.message || "Erros ocorreram ao recuperar um produto."
         });
       });
   };
 
-// Find a single Produto with an id
 exports.findOne = (req, res) => {
   const id = req.params.id;
 
@@ -58,12 +58,11 @@ exports.findOne = (req, res) => {
     })
     .catch(err => {
       res.status(500).send({
-        message: "Error retrieving Produto with id=" + id
+        message: "Erro ao recuperar produto com id=" + id
       });
     });
 };
 
-// Update a Produto by the id in the request
 exports.update = (req, res) => {
     const id = req.params.id;
   
@@ -73,22 +72,21 @@ exports.update = (req, res) => {
       .then(num => {
         if (num == 1) {
           res.send({
-            message: "Produto was updated successfully."
+            message: "Produto atualizado com sucesso."
           });
         } else {
           res.send({
-            message: `Cannot update Produto with id=${id}. Maybe Produto was not found or req.body is empty!`
+            message: `Não foi possível atualizar produto com id=${id}. Talvez o produto não tenha sido encontrado ou req.body está vazio!`
           });
         }
       })
       .catch(err => {
         res.status(500).send({
-          message: "Error updating Produto with id=" + id
+          message: "Erro ao atualizar produto com id=" + id
         });
       });
   };
 
-// Delete a Produto with the specified id in the request
 exports.delete = (req, res) => {
     const id = req.params.id;
   
@@ -98,17 +96,17 @@ exports.delete = (req, res) => {
       .then(num => {
         if (num == 1) {
           res.send({
-            message: "Produto was deleted successfully!"
+            message: "Produto deletado com sucesso!"
           });
         } else {
           res.send({
-            message: `Cannot delete Produto with id=${id}. Maybe Produto was not found!`
+            message: `Não foi possível deletar produto com id=${id}. Talvez o produto não tenha sido encontrado!`
           });
         }
       })
       .catch(err => {
         res.status(500).send({
-          message: "Could not delete Produto with id=" + id
+          message: "Não foi possível deletar produto com id=" + id
         });
       });
   };
@@ -124,20 +122,20 @@ exports.deleteAll = (req, res) => {
       .catch(err => {
         res.status(500).send({
           message:
-            err.message || "Some error occurred while removing all Produtos."
+            err.message || "Erros ocorreram ao deletar todos produtos."
         });
     });
 };
 
-exports.findAllPublished = (req, res) => {
-    Produto.findAll({ where: { published: true } })
+exports.findAllPrecoUnitarioValido = (req, res) => {
+    Produto.findAll({ where: { precoUnitario : ">0"  } })
       .then(data => {
         res.send(data);
       })
       .catch(err => {
         res.status(500).send({
           message:
-            err.message || "Some error occurred while retrieving Produtos."
+            err.message || "Erros ocorreram ao recuperar produtos."
         });
       });
   };
