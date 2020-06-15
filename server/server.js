@@ -1,12 +1,20 @@
+console.log("Inicializando servidor...")
+
+const envpath = process.env.NODE_ENV === undefined  ? '.env.development' : `.env.${process.env.NODE_ENV}`;
+
+require('dotenv').config({  
+  path: envpath
+})
+
 const express = require("express");
 const bodyParser = require("body-parser");
-const cors = require("cors"); // Express module
+const cors = require("cors");
 const db = require("./src/models");
-const config = require('dotenv').config();
+
 const app = express();
 
 var corsOptions = {
-  origin: `http://${process.env.corsHost}:${process.env.corsPort}`
+  origin: `http://${process.env.CORS_HOST}:${process.env.CORS_PORT}`
 };
 
 app.use(cors(corsOptions));
@@ -15,7 +23,7 @@ app.use(cors(corsOptions));
 app.use(bodyParser.json());
 
 // parse requests of content-type - application/x-www-form-urlencoded
-// app.use(bodyParser.urlencoded({ extended: true }));
+app.use(bodyParser.urlencoded({ extended: true }));
 
 db.sequelize.sync();
 
@@ -26,6 +34,6 @@ app.get("/", (req, res) => {
 
 // set port, listen for requests
 require("./src/routes/produto.routes")(app);
-app.listen(process.env.port, process.env.host, () => {
-  console.log(`Server is running on port ${process.env.port}`);
+app.listen(process.env.PORT, process.env.HOST, () => {
+  console.log(`Servidor está em execução na porta ${process.env.PORT}`);
 });
