@@ -7,7 +7,7 @@ require('dotenv').config({
 module.exports = {
 
     devServer: {      
-      host: process.env.NODE_ENV === 'production' ? '' : process.env.VUE_APP_HOST,
+      host: process.env.NODE_ENV === 'production' ? '' : process.env.VUE_APP_PORT,
       port: process.env.NODE_ENV === 'production' ? '' : process.env.VUE_APP_PORT,
       https: false,
       hotOnly: false,

@@ -4,7 +4,7 @@ console.log("Realizando conexão com banco de dados...")
 
 const sequelize = new Sequelize(process.env.RDS_DB_NAME, process.env.RDS_USERNAME, process.env.RDS_PASSWORD, {
   host: process.env.RDS_HOSTNAME,
-  // port: process.env.RDS_PORT,
+  port: process.env.RDS_PORT,
   dialect: process.env.DB_DIALECT,
   pool: {
     max: parseInt(process.env.DB_POOL_MAX),

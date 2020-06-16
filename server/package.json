@@ -5,7 +5,7 @@
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "node server.js env NODE_ENV=production"
+    "start": "NODE_ENV=production node server.js"
   },
   "author": "",
   "license": "ISC",
@@ -16,6 +16,7 @@
     "express": "^4.17.1",
     "pg": "^8.2.1",
     "pg-hstore": "^2.3.3",
+    "pm2": "^4.4.0",
     "sequelize": "^5.21.12"
   }
 }
