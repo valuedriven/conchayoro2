@@ -1,3 +1,4 @@
+console.log('vue.config.js');
 const envpath = process.env.NODE_ENV === undefined  ? '.env.development' : `.env.${process.env.NODE_ENV}`;
 
 require('dotenv').config({  
@@ -11,6 +12,7 @@ module.exports = {
       port: process.env.NODE_ENV === 'production' ? '' : process.env.VUE_APP_PORT,
       https: false,
       hotOnly: false,
+      disableHostCheck: true
     },
 
   }

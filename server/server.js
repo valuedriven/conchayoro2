@@ -6,7 +6,7 @@ require('dotenv').config({
   path: envpath
 })
 
-console.log("variáveis de ambiente do banco");
+console.log("Inspecionando variáveis de banco de dados...");
 console.log(process.env.RDS_DB_NAME, process.env.RDS_USERNAME, process.env.RDS_PASSWORD, process.env.RDS_HOSTNAME, process.env.RDS_PORT, process.env.DB_DIALECT);
 
 const express = require("express");
@@ -16,11 +16,13 @@ const db = require("./src/models");
 
 const app = express();
 
-var corsOptions = {
-  origin: `http://${process.env.CORS_HOST}:${process.env.CORS_PORT}`
-};
+app.use(cors());
 
-app.use(cors(corsOptions));
+//Configuração do CORS para restringir acesso a API rest
+// var corsOptions = {
+//   origin: `http://${process.env.CORS_HOST}:${process.env.CORS_PORT}`
+// };
+// app.use(cors(corsOptions));
 
 // parse requests of content-type - application/json
 app.use(bodyParser.json());
@@ -32,7 +34,7 @@ db.sequelize.sync();
 
 // simple route
 app.get("/", (req, res) => {
-  res.json({ message: "Bem-vindo(a) a ConchayOro!" });
+  res.json({ message: "Bem-vindo(a) ao backend do ConchayOro!" });
 });
 
 // set port, listen for requests
