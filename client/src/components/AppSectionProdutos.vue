@@ -115,7 +115,6 @@ export default {
   methods: {
     fetchProdutos() {
       axios.get("/"+this.hostService).then(response => {
-        console.log(response);
         this.produtos = response.data;
       });
     },
