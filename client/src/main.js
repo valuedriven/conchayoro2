@@ -8,17 +8,7 @@ import vuetify from '@/plugins/vuetify'
 
 Vue.config.productionTip = false
 
-router.beforeEach((to, from, next) => {
-  // if (!store.getters.isLogged) {
-  //    if (to.path !== '/login') {
-  //     console.log(store.getters.isLogged);
-  //     next('/login');
-  //    }     
-  // } 
-  //   else {
-  //     next();
-  // }  
-  console.log('store.getters.isLogged', store.getters.isLogged)
+router.beforeEach((to, from, next) => {  
   if (to.matched.some((record) => record.meta.requiresAuth)) {
     if (!store.getters.isLogged) {
       next('/login')
@@ -27,22 +17,6 @@ router.beforeEach((to, from, next) => {
   }
   next();
   
-  //   next()
-  //   return
-  // }
-  // next('/login')
-  // if (to.matched.some((record) => record.meta.requiresAuth)) {    
-  //   if (store.getters.isLogged) {
-  //     console.log('main.js - beforeEach()')
-  //     next()
-  //     return
-  //   }
-  //   console.log('store.getters.isLogged', store.getters.isLogged)
-  //   next('/login')
-  // }
-  // console.log('store.getters.isLogged', store.getters.isLogged)
-  // next()
-
 });
 
 new Vue({

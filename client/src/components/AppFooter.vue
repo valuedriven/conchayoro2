@@ -2,7 +2,7 @@
   <footer>
     <div class="container text-center mt-0">
 
-      Projeto de exemplo
+      Nenhum direito reservado
       
     </div>
   </footer>

@@ -15,23 +15,17 @@ export default new VueRouter({
     routes: [{
         path: '/',
         component: Home,
-        meta: {
-            requiresAuth: true,
-        },
+        meta: { requiresAuth: true },
     },
     {
         path: '/produtos',
         component: Produtos,
-        meta: {
-            requiresAuth: true,
-        },
+        meta: { requiresAuth: true },
     },
     {
         path: '/login',
         component: Login,
-        meta: {
-            requiresAuth: false,
-        },
+        meta: { requiresAuth: false },
     },
     {
         path: '*',        
