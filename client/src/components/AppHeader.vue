@@ -7,6 +7,7 @@
         <div class="links mr-2">
           <router-link class="btn mr-5" v-if="isLogged" to="/">Início</router-link>
           <router-link class="btn mr-5" v-if="isLogged" to="/produtos">Produtos</router-link>
+          <router-link class="btn mr-5" v-if="isLogged" to="/arquivos">Arquivos</router-link>
           <a class="btn mr-5" v-if="isLogged" @click.prevent="logout">Logout</a> 
         </div>
       </nav>

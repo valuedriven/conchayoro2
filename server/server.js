@@ -37,8 +37,10 @@ app.get("/", (req, res) => {
   res.json({ message: "Bem-vindo(a) ao backend do ConchayOro!" });
 });
 
-// set port, listen for requests
 require("./src/routes/produto.routes")(app);
+require("./src/routes/arquivo.routes")(app);
+
+// set port, listen for requests
 app.listen(process.env.PORT, () => {
   console.log(`Servidor está em execução na porta ${process.env.PORT}`);
 });

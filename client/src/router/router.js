@@ -3,6 +3,7 @@ import VueRouter from 'vue-router'
 
 import Home from './../components/AppSectionHome'
 import Produtos from './../components/AppSectionProdutos'
+import Arquivos from './../components/AppSectionArquivos'
 import Login from './../components/AppLogin'
 import App404 from './../components/App404'
 
@@ -20,6 +21,11 @@ export default new VueRouter({
     {
         path: '/produtos',
         component: Produtos,
+        meta: { requiresAuth: true },
+    },
+    {
+        path: '/arquivos',
+        component: Arquivos,
         meta: { requiresAuth: true },
     },
     {
