@@ -1,0 +1,78 @@
+version: '3.7'
+
+services:
+
+  jenkins:
+    build: ./jenkins
+    ports:
+      - "${CD_PORT}:8080"
+    networks:
+      - conchayoronet
+    env_file:
+      - .env
+      - .credenciais
+    environment:
+      - JENKINS_UC=https://updates.jenkins.io
+      - JAVA_OPTS=${JENKINS_JAVA_OPTS}
+    volumes:
+      - deploy-config:/deploy-config
+      - jenkins_home:/var/jenkins_home
+      - /var/run/docker.sock:/var/run/docker.sock
+    deploy:
+      resources:
+        limits:
+          memory: "4000m"
+          cpus: "1"
+  
+  nexus:
+    build: ./nexus
+    restart: always
+    ports:
+      - "${ARTIFACT_REPO_PORT}:8081"
+    networks:
+      - conchayoronet
+    env_file:
+      - .env
+      - .credenciais
+    volumes:
+      - store-nexus:/nexus-data
+      - deploy-config:/deploy-config
+    deploy:
+      resources:
+        limits:
+          memory: "4000m"
+          cpus: "0.8"
+  
+  sonar:    
+    build: ./sonar
+    restart: always
+    ports:
+      - "${QUALITY_REPO_PORT}:9000"
+    env_file:
+      - .env
+      - .credenciais
+    networks:
+      - conchayoronet
+    deploy:
+      resources:
+        limits:
+          memory: "4000m"
+          cpus: "0.9"
+    
+networks:
+  conchayoronet:
+
+volumes:
+  jenkins_home:
+  store-nexus:
+    driver: local
+    driver_opts:
+      type: tmpfs
+      o: size=10g
+      device: tmpfs
+  deploy-config:
+    driver: local
+    driver_opts:
+      type: none
+      o: bind
+      device: ${PWD}/.
