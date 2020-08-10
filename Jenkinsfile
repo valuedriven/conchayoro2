@@ -112,9 +112,9 @@ void runStepsCommitStage() {
   sh "npm install --prefix server"
   sh "npm build --prefix server"
 
-  sh "npm version $VERSION_NUMBER-$BUILD_NUMBER --prefix client"    
-  sh "npm install --prefix client"
-  sh "npm run build --prefix client"
+  // sh "npm version $VERSION_NUMBER-$BUILD_NUMBER --prefix client"    
+  // sh "npm install --prefix client"
+  // sh "npm run build --prefix client"
   
   // script {
 	//   if (env.QUALITY_REPO_ENABLED == 'True')	{
@@ -130,11 +130,11 @@ void runStepsCommitStage() {
   }
   
   // sh "cp target/${PROJECT_NAME}.war ."
-  sh "cp ambiente/node/Dockerfile ."
+  // sh "cp ambiente/node/Dockerfile ."
     
   imagemComNomeCompleto = "${env.IMAGE_REPO_USER}/${env.PROJECT_NAME}:${tagName}"
 
-  def dockerCommand = "docker build -t "+imagemComNomeCompleto+" -f Dockerfile ."
+  def dockerCommand = "docker build -t "+imagemComNomeCompleto+" -f server/Dockerfile ."
   sh dockerCommand
     
   imageRepository = "${env.IMAGE_REPO_PROTOCOL}${env.IMAGE_REPO_HOST}"
