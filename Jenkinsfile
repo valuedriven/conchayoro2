@@ -108,7 +108,7 @@ void runStepsCommitStage() {
   //sh "mvn versions:set -DnewVersion=$VERSION_NUMBER-$BUILD_NUMBER ${Settings}"  
   //sh "mvn clean install ${Settings}"
   
-  sh "npm version $VERSION_NUMBER-$BUILD_NUMBER"    
+  sh "npm version $VERSION_NUMBER-$BUILD_NUMBER --prefix server"    
   sh "npm install --prefix server"
   sh "npm build --prefix server"
   
