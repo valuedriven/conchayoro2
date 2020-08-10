@@ -108,11 +108,11 @@ void runStepsCommitStage() {
   //sh "mvn versions:set -DnewVersion=$VERSION_NUMBER-$BUILD_NUMBER ${Settings}"  
   //sh "mvn clean install ${Settings}"
   
-  sh "npm version $VERSION_NUMBER-$BUILD_NUMBER --prefix server"    
-  sh "npm install --prefix server"
-  sh "npm build --prefix server"
+  sh "npm version $VERSION_NUMBER-$BUILD_NUMBER --prefix server"
+  // sh "npm install --prefix server"
+  // sh "npm build --prefix server"
 
-  // sh "npm version $VERSION_NUMBER-$BUILD_NUMBER --prefix client"    
+  sh "npm version $VERSION_NUMBER-$BUILD_NUMBER --prefix client"    
   // sh "npm install --prefix client"
   // sh "npm run build --prefix client"
   
@@ -128,18 +128,17 @@ void runStepsCommitStage() {
   if (env.PUSH_BRANCH_TO_REPO == 'True')	{
     sh "git push https://${PROJECT_REPO_USER}@${RepoHost} --follow-tags"
   }
-  
-  // sh "cp target/${PROJECT_NAME}.war ."
-  // sh "cp ambiente/node/Dockerfile ."
-    
+      
   imagemComNomeCompleto = "${env.IMAGE_REPO_USER}/${env.PROJECT_NAME}:${tagName}"
 
   def dockerCommand = "docker build -t "+imagemComNomeCompleto+" -f server/Dockerfile server"
   sh dockerCommand
+
+  dockerCommand = "docker build -t "+imagemComNomeCompleto+" -f client/Dockerfile client"
+  sh dockerCommand
     
   imageRepository = "${env.IMAGE_REPO_PROTOCOL}${env.IMAGE_REPO_HOST}"
 
-  
   if (env.PUSH_IMAGE_TO_REPO == 'True')	{
     withCredentials([usernamePassword(credentialsId: ImageRepoCredentials, passwordVariable: 'ImageRepoPassword', usernameVariable: 'ImageRepoUser')]) {
 	

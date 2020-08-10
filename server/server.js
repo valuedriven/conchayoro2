@@ -38,7 +38,6 @@ app.get("/", (req, res) => {
 });
 
 require("./src/routes/produto.routes")(app);
-require("./src/routes/arquivo.routes")(app);
 
 // set port, listen for requests
 app.listen(process.env.PORT, () => {
