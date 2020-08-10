@@ -57,7 +57,7 @@ services:
       resources:
         limits:
           memory: "4000m"
-          cpus: "0.9"
+          cpus: "0.9"      
     
 networks:
   conchayoronet:
