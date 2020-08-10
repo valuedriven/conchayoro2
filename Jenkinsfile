@@ -134,7 +134,7 @@ void runStepsCommitStage() {
     
   imagemComNomeCompleto = "${env.IMAGE_REPO_USER}/${env.PROJECT_NAME}:${tagName}"
 
-  def dockerCommand = "docker build -t "+imagemComNomeCompleto+" -f server/Dockerfile ."
+  def dockerCommand = "docker build -t "+imagemComNomeCompleto+" -f server/Dockerfile server"
   sh dockerCommand
     
   imageRepository = "${env.IMAGE_REPO_PROTOCOL}${env.IMAGE_REPO_HOST}"
