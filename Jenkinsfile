@@ -114,7 +114,7 @@ void runStepsCommitStage() {
 
   sh "npm version $VERSION_NUMBER-$BUILD_NUMBER --prefix client"    
   sh "npm install --prefix client"
-  sh "npm run build' --prefix client"
+  sh "npm run build --prefix client"
   
   // script {
 	//   if (env.QUALITY_REPO_ENABLED == 'True')	{
