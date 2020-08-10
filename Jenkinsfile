@@ -105,14 +105,18 @@ void runStepsCommitStage() {
 	  }
   }
 					 
-  sh "mvn versions:set -DnewVersion=$VERSION_NUMBER-$BUILD_NUMBER ${Settings}"  
-  sh "mvn clean install ${Settings}"				  
+  //sh "mvn versions:set -DnewVersion=$VERSION_NUMBER-$BUILD_NUMBER ${Settings}"  
+  //sh "mvn clean install ${Settings}"
   
-  script {
-	  if (env.QUALITY_REPO_ENABLED == 'True')	{
-       sh "mvn sonar:sonar -Dsonar.host.url=${SonarHost} ${Settings}"
-    }
-	}  
+  // sh "npm version"    
+  // sh "npm install --prefix server"
+  // sh "npm build --prefix server"
+  
+  // script {
+	//   if (env.QUALITY_REPO_ENABLED == 'True')	{
+  //      sh "mvn sonar:sonar -Dsonar.host.url=${SonarHost} ${Settings}"
+  //   }
+	// }  
   
   sh "git commit -a -m 'Nova release candidata'"
   sh "git tag -a ${tagName} --force -m 'Nova versão'"
@@ -121,8 +125,8 @@ void runStepsCommitStage() {
     sh "git push https://${PROJECT_REPO_USER}@${RepoHost} --follow-tags"
   }
   
-  sh "cp target/${PROJECT_NAME}.war ."
-  sh "cp ambiente/wildfly/Dockerfile ."
+  // sh "cp target/${PROJECT_NAME}.war ."
+  sh "cp ambiente/node/Dockerfile ."
     
   imagemComNomeCompleto = "${env.IMAGE_REPO_USER}/${env.PROJECT_NAME}:${tagName}"
 
