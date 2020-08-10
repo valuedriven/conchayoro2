@@ -108,9 +108,9 @@ void runStepsCommitStage() {
   //sh "mvn versions:set -DnewVersion=$VERSION_NUMBER-$BUILD_NUMBER ${Settings}"  
   //sh "mvn clean install ${Settings}"
   
-  // sh "npm version"    
-  // sh "npm install --prefix server"
-  // sh "npm build --prefix server"
+  sh "npm version $VERSION_NUMBER-$BUILD_NUMBER"    
+  sh "npm install --prefix server"
+  sh "npm build --prefix server"
   
   // script {
 	//   if (env.QUALITY_REPO_ENABLED == 'True')	{
