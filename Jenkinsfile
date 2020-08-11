@@ -116,11 +116,11 @@ void runStepsCommitStage() {
   // sh "npm install --prefix client"
   // sh "npm run build --prefix client"
   
-  // script {
-	//   if (env.QUALITY_REPO_ENABLED == 'True')	{
-  //      sh "mvn sonar:sonar -Dsonar.host.url=${SonarHost} ${Settings}"
-  //   }
-	// }  
+  script {
+	   if (env.QUALITY_REPO_ENABLED == 'True')	{
+       sh "sonarqube-scanner -Dsonar.host.url=${SonarHost}"
+    }
+	}  
   
   sh "git commit -a -m 'Nova release candidata'"
   sh "git tag -a ${tagName} --force -m 'Nova versão'"
