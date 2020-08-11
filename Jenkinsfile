@@ -143,13 +143,13 @@ void runStepsCommitStage() {
   if (env.PUSH_IMAGE_TO_REPO == 'True')	{
     withCredentials([usernamePassword(credentialsId: ImageRepoCredentials, passwordVariable: 'ImageRepoPassword', usernameVariable: 'ImageRepoUser')]) {
 	
-      docker.withRegistry(imageRepository, ImageRepoCredentials) {  
-        //sh "docker login -u ${ImageRepoUser} -p ${ImageRepoPassword}"
+      // docker.withRegistry(imageRepository, ImageRepoCredentials) {  
+        sh "docker login -u ${ImageRepoUser} -p ${ImageRepoPassword}"
 	      dockerCommand = "docker push "+imagemServerComNomeCompleto
         sh dockerCommand
         dockerCommand = "docker push "+imagemClientComNomeCompleto
         sh dockerCommand
-      }
+      // }
     }
   }
   
