@@ -9,9 +9,12 @@ ENV KEY_FILE="conchayoro"
 ENV KEY_NAME="conchayoro_key_name"
 
 RUN apk update && \
-    apk add --no-cache python3 py3-pip groff openrc docker ansible git maven openjdk8-jre tzdata nodejs npm &&\
+    #apk add --no-cache python3 py3-pip groff openrc docker ansible git maven openjdk8-jre tzdata nodejs npm &&\
+    #apk add --no-cache python3 py3-pip groff openrc docker ansible git tzdata nodejs npm &&\
+    apk add --no-cache docker openrc npm &&\
     apk add --no-cache terraform --repository=http://dl-cdn.alpinelinux.org/alpine/edge/community &&\
-    npm install -g heroku &&\
+    npm update &&\
+    npm install -g git ansible heroku nodejs sonarqube-scanner &&\
     heroku plugins:install heroku-config &&\
     ssh-keygen -t rsa -b 2048 -C ${KEY_NAME} -N "" -f ~/.ssh/${KEY_FILE} &&\
     chmod 400 ~/.ssh/${KEY_FILE}* &&\
