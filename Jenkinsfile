@@ -118,7 +118,8 @@ void runStepsCommitStage() {
   
   script {
 	   if (env.QUALITY_REPO_ENABLED == 'True')	{
-       sh "sonarqube-scanner -Dsonar.host.url=${SonarHost}"
+       sh "npm run sonarqube-scanner -Dsonar.host.url=${SonarHost} --prefix server"
+       sh "npm run sonarqube-scanner -Dsonar.host.url=${SonarHost} --prefix client"
     }
 	}  
   
@@ -132,7 +133,8 @@ void runStepsCommitStage() {
   imagemServerComNomeCompleto = "${env.IMAGE_REPO_USER}/${env.PROJECT_NAME}:${tagName}-server"
   imagemClientComNomeCompleto = "${env.IMAGE_REPO_USER}/${env.PROJECT_NAME}:${tagName}-client"
 
-  def dockerCommand = "docker build -t "+imagemServerComNomeCompleto+" -f server/Dockerfile server"
+  // def dockerCommand = "docker build -t "+imagemServerComNomeCompleto+" -f server/Dockerfile server"
+  def dockerCommand = "docker build -t "+imagemServerComNomeCompleto+" server"
   sh dockerCommand
 
   dockerCommand = "docker build -t "+imagemClientComNomeCompleto+" -f client/Dockerfile client"
