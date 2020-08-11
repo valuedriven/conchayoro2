@@ -129,8 +129,8 @@ void runStepsCommitStage() {
     sh "git push https://${PROJECT_REPO_USER}@${RepoHost} --follow-tags"
   }
       
-  imagemServerComNomeCompleto = "${env.IMAGE_REPO_USER}/${env.PROJECT_NAME}:server-${tagName}"
-  imagemClientComNomeCompleto = "${env.IMAGE_REPO_USER}/${env.PROJECT_NAME}:client-${tagName}"
+  imagemServerComNomeCompleto = "${env.IMAGE_REPO_USER}/${env.PROJECT_NAME}:${tagName}-server"
+  imagemClientComNomeCompleto = "${env.IMAGE_REPO_USER}/${env.PROJECT_NAME}:${tagName}-client"
 
   def dockerCommand = "docker build -t "+imagemServerComNomeCompleto+" -f server/Dockerfile server"
   sh dockerCommand
@@ -144,8 +144,10 @@ void runStepsCommitStage() {
     withCredentials([usernamePassword(credentialsId: ImageRepoCredentials, passwordVariable: 'ImageRepoPassword', usernameVariable: 'ImageRepoUser')]) {
 	
       docker.withRegistry(imageRepository, ImageRepoCredentials) {  
-	      dockerCommand = "docker push "+imagemServerComNomeCompleto+" "+imagemClientComNomeCompleto
-	      sh "docker login -u ${ImageRepoUser} -p ${ImageRepoPassword}"
+        //sh "docker login -u ${ImageRepoUser} -p ${ImageRepoPassword}"
+	      dockerCommand = "docker push "+imagemServerComNomeCompleto
+        sh dockerCommand
+        dockerCommand = "docker push "+imagemClientComNomeCompleto
         sh dockerCommand
       }
     }
