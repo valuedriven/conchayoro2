@@ -118,6 +118,8 @@ void runStepsCommitStage() {
   
   script {
 	   if (env.QUALITY_REPO_ENABLED == 'True')	{
+       sh "npm install sonarqube-scanner --prefix server"
+       sh "npm install sonarqube-scanner --prefix client"
        sh "npm run sonarqube-scanner -Dsonar.host.url=${SonarHost} --prefix server"
        sh "npm run sonarqube-scanner -Dsonar.host.url=${SonarHost} --prefix client"
     }
