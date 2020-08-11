@@ -129,8 +129,8 @@ void runStepsCommitStage() {
     sh "git push https://${PROJECT_REPO_USER}@${RepoHost} --follow-tags"
   }
       
-  imagemServerComNomeCompleto = "${env.IMAGE_REPO_USER}Server/${env.PROJECT_NAME}:${tagName}"
-  imagemClientComNomeCompleto = "${env.IMAGE_REPO_USER}Client/${env.PROJECT_NAME}:${tagName}"
+  imagemServerComNomeCompleto = "${env.IMAGE_REPO_USER}/${env.PROJECT_NAME}:server-${tagName}"
+  imagemClientComNomeCompleto = "${env.IMAGE_REPO_USER}/${env.PROJECT_NAME}:client-${tagName}"
 
   def dockerCommand = "docker build -t "+imagemServerComNomeCompleto+" -f server/Dockerfile server"
   sh dockerCommand
