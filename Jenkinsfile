@@ -104,10 +104,7 @@ void runStepsCommitStage() {
 	    tagName = Branch.substring(Projeto.length()+2,Branch.length())+"-fix-"+NumeroBuild
 	  }
   }
-					 
-  //sh "mvn versions:set -DnewVersion=$VERSION_NUMBER-$BUILD_NUMBER ${Settings}"  
-  //sh "mvn clean install ${Settings}"
-  
+					   
   sh "npm version $VERSION_NUMBER-$BUILD_NUMBER --prefix server"
   // sh "npm install --prefix server"
   // sh "npm build --prefix server"
@@ -118,9 +115,8 @@ void runStepsCommitStage() {
   
   script {
 	   if (env.QUALITY_REPO_ENABLED == 'True')	{
-      //  sh "npm install -g sonarqube-scanner"
-       sh "npm run sonarqube-scanner -Dsonar.host.url=${SonarHost} --prefix server"
-       sh "npm run sonarqube-scanner -Dsonar.host.url=${SonarHost} --prefix client"
+       sh "sonar-scanner -Dsonar.host.url=${SonarHost} --prefix server"
+       sh "sonar-scanner -Dsonar.host.url=${SonarHost} --prefix client"
     }
 	}  
   
