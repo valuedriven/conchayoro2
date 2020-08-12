@@ -10,6 +10,8 @@ import App404 from './../components/App404'
 Vue.use(VueRouter)
 
 export default new VueRouter({
+    
+    mode: 'history',
 
     linkExactActiveClass: 'link-active',
         

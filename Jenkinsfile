@@ -130,11 +130,10 @@ void runStepsCommitStage() {
   imagemServerComNomeCompleto = "${env.IMAGE_REPO_USER}/${env.PROJECT_NAME}:${tagName}-server"
   imagemClientComNomeCompleto = "${env.IMAGE_REPO_USER}/${env.PROJECT_NAME}:${tagName}-client"
 
-  // def dockerCommand = "docker build -t "+imagemServerComNomeCompleto+" -f server/Dockerfile server"
   def dockerCommand = "docker build -t "+imagemServerComNomeCompleto+" server"
   sh dockerCommand
 
-  dockerCommand = "docker build -t "+imagemClientComNomeCompleto+" -f client/Dockerfile client"
+  dockerCommand = "docker build -t "+imagemClientComNomeCompleto+" client"
   sh dockerCommand
     
   imageRepository = "${env.IMAGE_REPO_PROTOCOL}${env.IMAGE_REPO_HOST}"
@@ -142,13 +141,11 @@ void runStepsCommitStage() {
   if (env.PUSH_IMAGE_TO_REPO == 'True')	{
     withCredentials([usernamePassword(credentialsId: ImageRepoCredentials, passwordVariable: 'ImageRepoPassword', usernameVariable: 'ImageRepoUser')]) {
 	
-      // docker.withRegistry(imageRepository, ImageRepoCredentials) {  
         sh "docker login -u ${ImageRepoUser} -p ${ImageRepoPassword}"
 	      dockerCommand = "docker push "+imagemServerComNomeCompleto
         sh dockerCommand
         dockerCommand = "docker push "+imagemClientComNomeCompleto
         sh dockerCommand
-      // }
     }
   }
   
