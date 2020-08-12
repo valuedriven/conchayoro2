@@ -11,7 +11,7 @@ ENV KEY_NAME="conchayoro_key_name"
 RUN apk update && \
     #apk add --no-cache python3 py3-pip groff openrc docker ansible git maven openjdk8-jre tzdata nodejs npm &&\
     #apk add --no-cache python3 py3-pip groff openrc docker ansible git tzdata nodejs npm &&\
-    apk add --no-cache docker openrc npm &&\
+    apk add --no-cache docker openrc npm openjdk8-jre &&\
     apk add --no-cache terraform --repository=http://dl-cdn.alpinelinux.org/alpine/edge/community &&\
     npm update &&\
     npm install -g git ansible heroku nodejs sonarqube-scanner &&\
