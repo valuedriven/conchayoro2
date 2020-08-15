@@ -111,11 +111,9 @@ void runStepsCommitStage() {
 					   
   sh "npm version $VERSION_NUMBER-$BUILD_NUMBER --prefix server"
   sh "npm --loglevel info install --prefix server"
-  // sh "npm build --prefix server"
 
   sh "npm version $VERSION_NUMBER-$BUILD_NUMBER --prefix client"    
-  // sh "npm install --prefix client"
-  // sh "npm run build --prefix client"
+  sh "npm --loglevel info install --prefix client"
   
   script {
 	    if (env.QUALITY_REPO_ENABLED == 'True')	{
@@ -236,7 +234,7 @@ void selecionarBranch() {
 	
 }
 
-void realizarDeploy(String ambiente, String arquivoAmbiente, String imagemServer, String imagemClient) {  
+void realizarDeploy(String ambiente, String arquivoAmbiente, String imagemServer, String imagemClient, String imagemDB) {  
   HostServer = carregarVariavelAmbiente("APP_SERVER_HOST", arquivoAmbiente)
   PortServer = carregarVariavelAmbiente("APP_SERVER_PORT", arquivoAmbiente)
   HostClient = carregarVariavelAmbiente("APP_CLIENT_HOST", arquivoAmbiente)
@@ -245,6 +243,6 @@ void realizarDeploy(String ambiente, String arquivoAmbiente, String imagemServer
   PortDB = carregarVariavelAmbiente("DATABASE_SERVER_PORT", arquivoAmbiente)
 
   sh "terraform init ambiente/terraform/$ambiente"
-  sh "terraform plan -var arquivoAmbiente=$arquivoAmbiente -var HostServer=$HostServer -var PortServer=$PortServer -var HostClient=$HostClient -var PortClient=$PortClient -var HostDB=$HostDB -var PortDB=$PortDB -var imagemServer=$imagemServer -var imagemClient=$imagemClient ambiente/terraform/$ambiente"
-  sh "terraform apply -auto-approve -var arquivoAmbiente=$arquivoAmbiente -var HostServer=$HostServer -var PortServer=$PortServer -var HostClient=$HostClient -var PortClient=$PortClient -var HostDB=$HostDB -var PortDB=$PortDB -var imagemServer=$imagemServer -var imagemClient=$imagemClient ambiente/terraform/$ambiente"
+  sh "terraform plan -var arquivoAmbiente=$arquivoAmbiente -var HostServer=$HostServer -var PortServer=$PortServer -var HostClient=$HostClient -var PortClient=$PortClient -var HostDB=$HostDB -var PortDB=$PortDB -var imagemServer=$imagemServer -var imagemClient=$imagemClient -var imagemDB=$imagemDB ambiente/terraform/$ambiente"
+  sh "terraform apply -auto-approve -var arquivoAmbiente=$arquivoAmbiente -var HostServer=$HostServer -var PortServer=$PortServer -var HostClient=$HostClient -var PortClient=$PortClient -var HostDB=$HostDB -var PortDB=$PortDB -var imagemServer=$imagemServer -var imagemClient=$imagemClient -var imagemDB=$imagemDB ambiente/terraform/$ambiente"
 }
