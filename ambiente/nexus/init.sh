@@ -10,28 +10,34 @@ until curl --fail --insecure $server > /dev/null; do
 done
 
 oldPassword="$(cat /nexus-data/admin.password)"
-changePasswordRest=$server"/service/rest/beta/security/users/"$username"/change-password" 
+changePasswordRest=$server"/service/rest/v1/security/users/"$username"/change-password" 
 
 echo "Alteração da senha padrão do administrador"
-echo "usuário: "$username
-echo "senha: "$password
-echo "velha senha: "$oldPassword
-echo "rest: "$changePasswordRest
+echo "usuário: "$username "senha inicial: "$oldPassword "senha nova: "$password "serviço: "$changePasswordRest
 curl -v -X PUT -u $username:$oldPassword --header "Content-Type: text/plain" $changePasswordRest -d $password
-
-
-echo "Liberação de acesso anônimo"
-curl -v -X POST -u $username:$password --header "Content-Type: text/plain" $server"/service/rest/v1/script/anonymous/run" -d "true"
 
 cd /deploy-config/nexus
 
-echo "Inclusão e execução de script de criação de grupo"
-sh ./create.sh groups.json
-sh ./run.sh fileblobstore
+echo "Liberação de acesso anônimo"
+echo "====================================================="
+curl -v -X PUT -u $username:$password --header "accept: application/json" --header "Content-Type: application/json" $server"/service/rest/v1/security/anonymous" -d @enableAnonymous.json
 
-echo "Inclusão e execução de script de criação de repositório"
-sh ./create.sh repository.json
-sh ./run.sh Docker
+echo "Inclusão de proxy npm"
+echo "====================================================="
+curl -v -X POST -u $username:$password --header "Content-Type: application/json" $server"/service/rest/v1/repositories/npm/proxy" -d @npmproxy.json
+
+#echo "Inclusão de grupo npm"
+#echo "====================================================="
+#curl -v -X POST -u $username:$password --header "Content-Type: application/json" $server"/service/rest/v1/​repositories​/npm​/group" -d @npmgroup.json
+
+
+#echo "Inclusão e execução de script de criação de grupo"
+#sh ./create.sh groups.json
+#sh ./run.sh fileblobstore
+
+#echo "Inclusão e execução de script de criação de repositório"
+#sh ./create.sh repository.json
+#sh ./run.sh npm
 
 echo "..."
 echo "Ajustes de pós instalação concluídos"

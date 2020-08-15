@@ -1,0 +1,13 @@
+{
+    "name": "npm-group",
+    "online": true,
+    "storage": {
+      "blobStoreName": "default",
+      "strictContentTypeValidation": true
+    },
+    "group": {
+      "memberNames": [
+        "anonymous"
+      ]
+    }
+  }

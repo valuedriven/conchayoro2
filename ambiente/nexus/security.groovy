@@ -1,8 +1,6 @@
 import groovy.json.JsonOutput
 
-//
 // Redefine senha padrão
-//
 def user = security.securitySystem.getUser('admin')
 user.setEmailAddress('vinh-vinh@mimacom.com')
 security.securitySystem.updateUser(user)
@@ -10,22 +8,16 @@ println 'senhas padrão/nova: '+System.getenv('password')+'/'+System.getenv('ART
 security.securitySystem.changePassword(System.getenv('password'),System.getenv('ARTIFACT_REPO_PASSWORD'))
 log.info('default password for admin changed')
 
-//
 // habilita acesso anônimo 
-//
 security.setAnonymousAccess(true)
 log.info('Anonymous access enabled')
 
-//
 // Create new admin user
-//
 def adminRole = ['nx-admin']
 def adminUser = security.addUser('juan.carlos', 'Juan', 'Carlos', 'jc@mimacom.com', true, 'admin456', adminRole)
 log.info('User jc created')
 
-//
 // Create a new role that allows a user same access as anonymous and adds healtchcheck access
-//
 def devPrivileges = ['nx-healthcheck-read', 'nx-healthcheck-summary-read']
 def anoRole = ['nx-anonymous']
 // add roles that uses the built in nx-anonymous role as a basis and adds more privileges
@@ -36,9 +28,7 @@ def devRoles = ['developer']
 def johnLegend = security.addUser('john.legend', 'John', 'Legend', 'john.legend@mimacom.com', true, 'changMe456', devRoles)
 log.info('User john.legend created')
 
-//
 // Create new role that allows deployment and create a user to be used on a CI server
-//
 // privileges with pattern * to allow any format, browse and read are already part of nx-anonymous
 def depPrivileges = ['nx-repository-view-*-*-add', 'nx-repository-view-*-*-edit']
 def roles = ['developer']
@@ -49,8 +39,6 @@ def depRoles = ['deployer']
 def lJenkins = security.addUser('jenkins', 'Leeroy', 'Jenkins', 'leeroy.jenkins@mimacom.com', true, 'changMe789', depRoles)
 log.info('User jenkins created')
 
-
 log.info('Script security completed successfully')
-
 //Return a JSON response containing our new Users for confirmation
 return JsonOutput.toJson([adminUser, johnLegend, lJenkins, user])

@@ -1,5 +1,5 @@
 {
-    "name": "Docker",
+    "name": "npm",
     "type": "groovy",
-    "content": "repository.createDockerHosted('docker-private', 5000, null, 'docker'); repository.createDockerProxy('docker-hub', 'https://registry-1.docker.io', 'HUB', null, null, null, 'docker'); repository.createDockerGroup('docker-all', 18443, null, ['docker-private', 'docker-hub'] ,true)"
+    "content":"repository.createNpmHosted('npm-internal'); repository.createNpmProxy('npmjs-org','https://registry.npmjs.org'); repository.createNpmGroup('npm-all',['npmjs-org','npm-internal'])"
   }
