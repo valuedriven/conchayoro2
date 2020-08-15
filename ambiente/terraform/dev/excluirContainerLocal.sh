@@ -13,3 +13,10 @@ if [ ! -z $containerId ]
 then
  docker kill $containerId
 fi
+
+containerId=$(docker ps -q --filter name=containerLocalDB)
+
+if [ ! -z $containerId ]
+then
+ docker kill $containerId
+fi

@@ -7,6 +7,10 @@ variable "PortServer" {
   default = "80"
 }
 
+variable "PortServerContainer" {
+  default = "8080"
+}
+
 variable "HostClient" {
   default = "localhost"
 }
@@ -15,13 +19,22 @@ variable "PortClient" {
   default = "80"
 }
 
-variable "ServerContainerPort" {
+variable "PortClientContainer" {
   default = "8080"
 }
 
-variable "ClientContainerPort" {
+variable "HostDB" {
+  default = "localhost"
+}
+
+variable "PortDB" {
+  default = "80"
+}
+
+variable "PortDBContainer" {
   default = "8080"
 }
+
 
 variable "arquivoAmbiente" {
   default = ".env-dev"
@@ -32,5 +45,9 @@ variable "imagemServer" {
 }
 
 variable "imagemClient" {
+  default = ""
+}
+
+variable "imagemDB" {
   default = ""
 }

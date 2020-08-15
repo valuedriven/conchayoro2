@@ -131,11 +131,15 @@ void runStepsCommitStage() {
   if (env.PUSH_BRANCH_TO_REPO == 'True')	{
     sh "git push https://${PROJECT_REPO_USER}@${RepoHost} --follow-tags"
   }
-      
+
+  imagemDB = "${env.IMAGE_REPO_USER}/${env.PROJECT_NAME}:${tagName}-db"      
   imagemServer = "${env.IMAGE_REPO_USER}/${env.PROJECT_NAME}:${tagName}-server"
   imagemClient = "${env.IMAGE_REPO_USER}/${env.PROJECT_NAME}:${tagName}-client"
 
-  def dockerCommand = "docker build -t "+imagemServer+" server"
+  def dockerCommand = "docker build -t "+imagemDB+" db"
+  sh dockerCommand
+
+  dockerCommand = "docker build -t "+imagemServer+" server"
   sh dockerCommand
 
   dockerCommand = "docker build -t "+imagemClient+" client"
@@ -157,7 +161,7 @@ void runStepsCommitStage() {
   script {
 	  if (env.APP_SERVER_DEV_ENABLED == 'True') {
       println("Implantando no ambiente de desenvolvimento...")
-      realizarDeploy("dev", "ambiente/.env-dev", imagemServer,imagemClient)
+      realizarDeploy("dev", "ambiente/.env-dev", imagemServer,imagemClient, imagemDB)
       println("Implantação no ambiente de desenvolvimento concluída...")
 	  }
   }
@@ -169,7 +173,7 @@ void runStepsAceitacaoStage() {
   script {
 	  if (env.APP_SERVER_TEST_ENABLED == 'True') {
       println("Implantando no ambiente de testes...")
-      realizarDeploy("dev", "ambiente/.env-dev", imagemServer,imagemClient)
+      realizarDeploy("dev", "ambiente/.env-dev", imagemServer,imagemClient, imagemDB)
       println("Implantação no ambiente de testes concluída...")
       sh "mvn failsafe:integration-test ${Settings}"
 	  }
@@ -182,7 +186,7 @@ void runStepsHomolocacaoStage() {
   script {
 	  if (env.APP_SERVER_HOM_ENABLED == 'True') {
       println("Implantando no ambiente de homologação...")
-      realizarDeploy("dev", "ambiente/.env-dev", imagemServer,imagemClient)
+      realizarDeploy("dev", "ambiente/.env-dev", imagemServer,imagemClient, imagemDB)
       println("Implantação no ambiente de homologação concluída...")
 	  } 
     input ( message: 'Autoriza promoção da build para produção?', ok: 'Autorizado', submitter: 'admin' )
@@ -196,7 +200,7 @@ void runStepsProducaoStage() {
   script {
 	  if (env.APP_SERVER_PROD_ENABLED == 'True') {
       println("Implantando no ambiente de produção...")
-	    realizarDeploy("dev", "ambiente/.env-dev", imagemServer,imagemClient)
+	    realizarDeploy("dev", "ambiente/.env-dev", imagemServer,imagemClient, imagemDB)
       println("Implantação no ambiente de produção concluída...")
 	  }
   }
@@ -239,8 +243,10 @@ void realizarDeploy(String ambiente, String arquivoAmbiente, String imagemServer
   PortServer = carregarVariavelAmbiente("APP_SERVER_PORT", arquivoAmbiente)
   HostClient = carregarVariavelAmbiente("APP_CLIENT_HOST", arquivoAmbiente)
   PortClient = carregarVariavelAmbiente("APP_CLIENT_PORT", arquivoAmbiente)
+  HostDB = carregarVariavelAmbiente("DATABASE_SERVER_HOST", arquivoAmbiente)
+  PortDB = carregarVariavelAmbiente("DATABASE_SERVER_PORT", arquivoAmbiente)
 
   sh "terraform init ambiente/terraform/$ambiente"
-  sh "terraform plan -var arquivoAmbiente=$arquivoAmbiente -var HostServer=$HostServer -var PortServer=$PortServer -var HostClient=$HostClient -var PortClient=$PortClient -var imagemServer=$imagemServer -var imagemClient=$imagemClient ambiente/terraform/$ambiente"
-  sh "terraform apply -auto-approve -var arquivoAmbiente=$arquivoAmbiente -var HostServer=$HostServer -var PortServer=$PortServer -var HostClient=$HostClient -var PortClient=$PortClient -var imagemServer=$imagemServer -var imagemClient=$imagemClient ambiente/terraform/$ambiente"
+  sh "terraform plan -var arquivoAmbiente=$arquivoAmbiente -var HostServer=$HostServer -var PortServer=$PortServer -var HostClient=$HostClient -var PortClient=$PortClient -var HostDB=$HostDB -var PortDB=$PortDB -var imagemServer=$imagemServer -var imagemClient=$imagemClient ambiente/terraform/$ambiente"
+  sh "terraform apply -auto-approve -var arquivoAmbiente=$arquivoAmbiente -var HostServer=$HostServer -var PortServer=$PortServer -var HostClient=$HostClient -var PortClient=$PortClient -var HostDB=$HostDB -var PortDB=$PortDB -var imagemServer=$imagemServer -var imagemClient=$imagemClient ambiente/terraform/$ambiente"
 }
