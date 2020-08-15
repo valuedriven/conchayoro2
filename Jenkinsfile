@@ -147,6 +147,8 @@ void runStepsCommitStage() {
     withCredentials([usernamePassword(credentialsId: ImageRepoCredentials, passwordVariable: 'ImageRepoPassword', usernameVariable: 'ImageRepoUser')]) {
 	
         sh "docker login -u ${ImageRepoUser} -p ${ImageRepoPassword}"
+        dockerCommand = "docker push "+imagemDB
+        sh dockerCommand
 	      dockerCommand = "docker push "+imagemServer
         sh dockerCommand
         dockerCommand = "docker push "+imagemClient
