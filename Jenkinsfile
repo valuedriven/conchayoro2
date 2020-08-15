@@ -104,9 +104,15 @@ void runStepsCommitStage() {
 	    tagName = Branch.substring(Projeto.length()+2,Branch.length())+"-fix-"+NumeroBuild
 	  }
   }
+
+  sh "echo 'configurando nexus para npm"
+
+  sh "npm config set registry $NexusServer/repository/npm-all/"
+
+  sh "more .npmrc"
 					   
   sh "npm version $VERSION_NUMBER-$BUILD_NUMBER --prefix server"
-  // sh "npm install --prefix server"
+  sh "npm --loglevel info install --prefix server"
   // sh "npm build --prefix server"
 
   sh "npm version $VERSION_NUMBER-$BUILD_NUMBER --prefix client"    
