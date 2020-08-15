@@ -105,7 +105,7 @@ void runStepsCommitStage() {
 	  }
   }
 
-  sh "echo 'configurando nexus para npm"
+  sh "echo 'configurando nexus para npm'"
 
   sh "npm config set registry $NexusServer/repository/npm-all/"
 
