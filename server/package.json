@@ -22,7 +22,5 @@
     "pm2": "^4.4.0",
     "sequelize": "^5.21.12"
   },
-  "devDependencies": {
-    "sonarqube-scanner": "^2.7.0"
-  }
+  "devDependencies": {}
 }
