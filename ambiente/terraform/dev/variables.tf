@@ -1,9 +1,17 @@
 
-variable "Host" {
+variable "HostServer" {
   default = "localhost"
 }
 
-variable "Port" {
+variable "PortServer" {
+  default = "80"
+}
+
+variable "HostClient" {
+  default = "localhost"
+}
+
+variable "PortClient" {
   default = "80"
 }
 
@@ -15,6 +23,10 @@ variable "arquivoAmbiente" {
   default = ".env-dev"
 }
 
-variable "imagem" {
+variable "imagemServer" {
+  default = ""
+}
+
+variable "imagemClient" {
   default = ""
 }

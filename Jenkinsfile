@@ -126,13 +126,13 @@ void runStepsCommitStage() {
     sh "git push https://${PROJECT_REPO_USER}@${RepoHost} --follow-tags"
   }
       
-  imagemServerComNomeCompleto = "${env.IMAGE_REPO_USER}/${env.PROJECT_NAME}:${tagName}-server"
-  imagemClientComNomeCompleto = "${env.IMAGE_REPO_USER}/${env.PROJECT_NAME}:${tagName}-client"
+  imagemServer = "${env.IMAGE_REPO_USER}/${env.PROJECT_NAME}:${tagName}-server"
+  imagemClient = "${env.IMAGE_REPO_USER}/${env.PROJECT_NAME}:${tagName}-client"
 
-  def dockerCommand = "docker build -t "+imagemServerComNomeCompleto+" server"
+  def dockerCommand = "docker build -t "+imagemServer+" server"
   sh dockerCommand
 
-  dockerCommand = "docker build -t "+imagemClientComNomeCompleto+" client"
+  dockerCommand = "docker build -t "+imagemClient+" client"
   sh dockerCommand
     
   imageRepository = "${env.IMAGE_REPO_PROTOCOL}${env.IMAGE_REPO_HOST}"
@@ -141,9 +141,9 @@ void runStepsCommitStage() {
     withCredentials([usernamePassword(credentialsId: ImageRepoCredentials, passwordVariable: 'ImageRepoPassword', usernameVariable: 'ImageRepoUser')]) {
 	
         sh "docker login -u ${ImageRepoUser} -p ${ImageRepoPassword}"
-	      dockerCommand = "docker push "+imagemServerComNomeCompleto
+	      dockerCommand = "docker push "+imagemServer
         sh dockerCommand
-        dockerCommand = "docker push "+imagemClientComNomeCompleto
+        dockerCommand = "docker push "+imagemClient
         sh dockerCommand
     }
   }
@@ -151,7 +151,7 @@ void runStepsCommitStage() {
   script {
 	  if (env.APP_SERVER_DEV_ENABLED == 'True') {
       println("Implantando no ambiente de desenvolvimento...")
-      realizarDeploy("dev", "ambiente/.env-dev", imagemComNomeCompleto)
+      realizarDeploy("dev", "ambiente/.env-dev", imagemServer,imagemClient)
       println("Implantação no ambiente de desenvolvimento concluída...")
 	  }
   }
@@ -163,7 +163,7 @@ void runStepsAceitacaoStage() {
   script {
 	  if (env.APP_SERVER_TEST_ENABLED == 'True') {
       println("Implantando no ambiente de testes...")
-      realizarDeploy("tes", "ambiente/.env-tes", imagemComNomeCompleto)
+      realizarDeploy("dev", "ambiente/.env-dev", imagemServer,imagemClient)
       println("Implantação no ambiente de testes concluída...")
       sh "mvn failsafe:integration-test ${Settings}"
 	  }
@@ -176,7 +176,7 @@ void runStepsHomolocacaoStage() {
   script {
 	  if (env.APP_SERVER_HOM_ENABLED == 'True') {
       println("Implantando no ambiente de homologação...")
-      realizarDeploy("hom", "ambiente/.env-hom", imagemComNomeCompleto)
+      realizarDeploy("dev", "ambiente/.env-dev", imagemServer,imagemClient)
       println("Implantação no ambiente de homologação concluída...")
 	  } 
     input ( message: 'Autoriza promoção da build para produção?', ok: 'Autorizado', submitter: 'admin' )
@@ -190,7 +190,7 @@ void runStepsProducaoStage() {
   script {
 	  if (env.APP_SERVER_PROD_ENABLED == 'True') {
       println("Implantando no ambiente de produção...")
-	    realizarDeploy("pro", "ambiente/.env-pro", imagemComNomeCompleto)
+	    realizarDeploy("dev", "ambiente/.env-dev", imagemServer,imagemClient)
       println("Implantação no ambiente de produção concluída...")
 	  }
   }
@@ -228,11 +228,13 @@ void selecionarBranch() {
 	
 }
 
-void realizarDeploy(String ambiente, String arquivoAmbiente, String imagem) {  
-  Host = carregarVariavelAmbiente("APP_SERVER_HOST", arquivoAmbiente)
-  Port = carregarVariavelAmbiente("APP_SERVER_PORT", arquivoAmbiente)
+void realizarDeploy(String ambiente, String arquivoAmbiente, String imagemServer, String imagemClient) {  
+  HostServer = carregarVariavelAmbiente("APP_SERVER_HOST", arquivoAmbiente)
+  PortServer = carregarVariavelAmbiente("APP_SERVER_PORT", arquivoAmbiente)
+  HostClient = carregarVariavelAmbiente("APP_CLIENT_HOST", arquivoAmbiente)
+  PortClient = carregarVariavelAmbiente("APP_CLIENT_PORT", arquivoAmbiente)
 
   sh "terraform init ambiente/terraform/$ambiente"
-  sh "terraform plan -var arquivoAmbiente=$arquivoAmbiente -var Host=$Host -var Port=$Port -var imagem=$imagem ambiente/terraform/$ambiente"
-  sh "terraform apply -auto-approve -var arquivoAmbiente=$arquivoAmbiente -var Host=$Host -var Port=$Port -var imagem=$imagem ambiente/terraform/$ambiente"
+  sh "terraform plan -var arquivoAmbiente=$arquivoAmbiente -var HostServer=$HostServer -var PortServer=$PortServer -var HostClient=$HostClient -var PortClient=$PortClient -var imagemServer=$imagemServer -var imagemClient=$imagemClient ambiente/terraform/$ambiente"
+  sh "terraform apply -auto-approve -var arquivoAmbiente=$arquivoAmbiente -var HostServer=$HostServer -var PortServer=$PortServer -var HostClient=$HostClient -var PortClient=$PortClient -var imagemServer=$imagemServer -var imagemClient=$imagemClient ambiente/terraform/$ambiente"
 }

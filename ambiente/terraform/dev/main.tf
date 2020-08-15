@@ -4,6 +4,9 @@ resource "null_resource" "DeployDev" {
     command = "sh ambiente/terraform/dev/excluirContainerLocal.sh"
   }
   provisioner "local-exec" {
-    command = "docker run --rm -d --name containerLocal --env-file ${var.arquivoAmbiente} -p ${var.Port}:${var.ContainerPort} ${var.imagem}"
+    command = "docker run --rm -d --name containerLocalServer --env-file ${var.arquivoAmbiente} -p ${var.PortServer}:${var.ContainerPort} ${var.imagemServer}"
+  }
+  provisioner "local-exec" {
+    command = "docker run --rm -d --name containerLocalClient --env-file ${var.arquivoAmbiente} -p ${var.PortClient}:${var.ContainerPort} ${var.imagemServer}"
   }
 }
