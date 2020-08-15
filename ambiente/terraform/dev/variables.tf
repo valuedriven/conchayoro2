@@ -15,7 +15,11 @@ variable "PortClient" {
   default = "80"
 }
 
-variable "ContainerPort" {
+variable "ServerContainerPort" {
+  default = "8080"
+}
+
+variable "ClientContainerPort" {
   default = "8080"
 }
 

@@ -22,7 +22,7 @@ RUN echo "Instalando pacotes básicos unzip, curl, sed, openrc, docker, npm e te
     echo "Instalando sonar-scanner..." &&\
     curl -s -L https://binaries.sonarsource.com/Distribution/sonar-scanner-cli/sonar-scanner-cli-${SONAR_SCANNER_CLI_VERSION}-linux.zip -o sonarscanner.zip &&\
     echo "unzip..." &&\
-    unzip -qq sonarscanner.zip &&\
+    unzip sonarscanner.zip &&\
     echo "rm..." &&\
     rm -rf sonarscanner.zip &&\
     echo "mv..." &&\
