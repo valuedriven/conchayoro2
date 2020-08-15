@@ -113,7 +113,7 @@ void runStepsCommitStage() {
   sh "npm --loglevel info install --prefix server"
 
   sh "npm version $VERSION_NUMBER-$BUILD_NUMBER --prefix client"    
-  sh "npm --loglevel info install --prefix client"
+  //sh "npm --loglevel info install --prefix client"
   
   script {
 	    if (env.QUALITY_REPO_ENABLED == 'True')	{
