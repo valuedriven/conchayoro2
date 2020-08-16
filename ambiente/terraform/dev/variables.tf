@@ -1,37 +1,37 @@
 
-variable "APP_SERVER_HOST" {
+variable "ServerHost" {
   
 }
 
-variable "APP_SERVER_PORT" {
+variable "ServerPort" {
   
 }
 
-variable "APP_SERVER_CONTAINER_PORT" {
+variable "ServerContainerPort" {
   
 }
 
-variable "APP_CLIENT_HOST" {
+variable "ClientHost" {
   
 }
 
-variable "APP_CLIENT_PORT" {
+variable "ClientPort" {
   
 }
 
-variable "APP_CLIENT_CONTAINER_PORT" {
+variable "ClientContainerPort" {
   
 }
 
-variable "DB_SERVER_HOST" {
+variable "DBHost" {
   
 }
 
-variable "DB_SERVER_PORT" {
+variable "DBPort" {
 
 }
 
-variable "DB_SERVER_CONTAINER_PORT" {
+variable "DBContainerPort" {
   
 }
 
@@ -50,3 +50,4 @@ variable "imagemClient" {
 variable "imagemDB" {
   
 }
+
