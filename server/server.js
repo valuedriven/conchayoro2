@@ -1,10 +1,10 @@
 console.log("Inicializando servidor...")
 
-const envpath = process.env.NODE_ENV === undefined  ? '.env.development' : `.env.${process.env.NODE_ENV}`;
+//const envpath = process.env.NODE_ENV === undefined  ? '.env.development' : `.env.${process.env.NODE_ENV}`;
 
-require('dotenv').config({  
-  path: envpath
-})
+// require('dotenv').config({  
+//   path: envpath
+// })
 
 const express = require("express");
 const bodyParser = require("body-parser");
@@ -37,6 +37,6 @@ app.get("/", (req, res) => {
 require("./src/routes/produto.routes")(app);
 
 // set port, listen for requests
-app.listen(process.env.SERVER_PORT, () => {
-  console.log(`Servidor está em execução na porta ${process.env.SERVER_PORT}`);
+app.listen(process.env.SERVER_CONTAINER_PORT, () => {
+  console.log(`Servidor está em execução na porta ${process.env.SERVER_CONTAINER_PORT}`);
 });
