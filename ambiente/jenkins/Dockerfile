@@ -20,11 +20,8 @@ RUN echo "Instalando pacotes básicos unzip, curl, sed, openrc, docker, npm e te
     npm install -g git ansible heroku nodejs &&\
     echo "Instalando sonar-scanner..." &&\
     curl -s -L https://binaries.sonarsource.com/Distribution/sonar-scanner-cli/sonar-scanner-cli-${SONAR_SCANNER_CLI_VERSION}-linux.zip -o sonarscanner.zip &&\
-    echo "unzip..." &&\
     unzip sonarscanner.zip &&\
-    echo "rm..." &&\
     rm -rf sonarscanner.zip &&\
-    echo "mv..." &&\
     mv sonar-scanner-${SONAR_SCANNER_CLI_VERSION}-linux ${SONAR_SCANNER_HOME} &&\
     echo "Instalando Heroku plugin..." &&\
     heroku plugins:install heroku-config &&\
