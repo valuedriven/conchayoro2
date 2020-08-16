@@ -2,9 +2,9 @@ const Sequelize = require("sequelize");
 
 console.log("Realizando conexão com banco de dados...")
 
-const sequelize = new Sequelize(process.env.RDS_DB_NAME, process.env.RDS_USERNAME, process.env.RDS_PASSWORD, {
-  host: process.env.RDS_HOSTNAME,
-  port: process.env.RDS_PORT,
+const sequelize = new Sequelize(process.env.POSTGRES_DB, process.env.DB_USER, process.env.DB_PASSWORD, {
+  host: process.env.DB_HOST,
+  port: process.env.DB_PORT,
   dialect: process.env.DB_DIALECT,
   pool: {
     max: parseInt(process.env.DB_POOL_MAX),

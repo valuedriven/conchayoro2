@@ -6,9 +6,6 @@ require('dotenv').config({
   path: envpath
 })
 
-console.log("Inspecionando variáveis de banco de dados...");
-console.log(process.env.RDS_DB_NAME, process.env.RDS_USERNAME, process.env.RDS_PASSWORD, process.env.RDS_HOSTNAME, process.env.RDS_PORT, process.env.DB_DIALECT);
-
 const express = require("express");
 const bodyParser = require("body-parser");
 const cors = require("cors");
@@ -40,6 +37,6 @@ app.get("/", (req, res) => {
 require("./src/routes/produto.routes")(app);
 
 // set port, listen for requests
-app.listen(process.env.PORT, () => {
-  console.log(`Servidor está em execução na porta ${process.env.PORT}`);
+app.listen(process.env.SERVER_PORT, () => {
+  console.log(`Servidor está em execução na porta ${process.env.SERVER_PORT}`);
 });

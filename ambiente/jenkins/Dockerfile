@@ -8,7 +8,6 @@ USER root
 ENV KEY_FILE="conchayoro"
 ENV KEY_NAME="conchayoro_key_name"
 
-#ENV JAVA_HOME=/usr/bin/java
 ENV SONAR_SCANNER_CLI_VERSION=4.4.0.2170
 ENV SONAR_SCANNER_HOME=/sonar-scanner
 ENV PATH $PATH:${SONAR_SCANNER_HOME}/bin
