@@ -1,4 +1,4 @@
-FROM  jenkins/jenkins:2.235.3-lts-alpine
+FROM  jenkins/jenkins:2.235.4-lts-alpine
 
 COPY *.groovy /usr/share/jenkins/ref/init.groovy.d/
 COPY *.txt  /usr/share/jenkins/ref/

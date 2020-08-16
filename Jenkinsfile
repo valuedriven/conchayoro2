@@ -245,6 +245,7 @@ void realizarDeploy(String ambiente, String arquivoAmbiente, String imagemServer
   PortDB = carregarVariavelAmbiente("DATABASE_SERVER_PORT", arquivoAmbiente)
 
   sh "terraform init ambiente/terraform/$ambiente"
-  sh "terraform plan -var arquivoAmbiente=$arquivoAmbiente -var HostServer=$HostServer -var PortServer=$PortServer -var HostClient=$HostClient -var PortClient=$PortClient -var HostDB=$HostDB -var PortDB=$PortDB -var imagemServer=$imagemServer -var imagemClient=$imagemClient -var imagemDB=$imagemDB ambiente/terraform/$ambiente"
+  //sh "terraform plan -var arquivoAmbiente=$arquivoAmbiente -var HostServer=$HostServer -var PortServer=$PortServer -var HostClient=$HostClient -var PortClient=$PortClient -var HostDB=$HostDB -var PortDB=$PortDB -var imagemServer=$imagemServer -var imagemClient=$imagemClient -var imagemDB=$imagemDB ambiente/terraform/$ambiente"
+  sh "terraform plan -var-file=$arquivoAmbiente -var imagemDB=$imagemDB ambiente/terraform/$ambiente"  
   sh "terraform apply -auto-approve -var arquivoAmbiente=$arquivoAmbiente -var HostServer=$HostServer -var PortServer=$PortServer -var HostClient=$HostClient -var PortClient=$PortClient -var HostDB=$HostDB -var PortDB=$PortDB -var imagemServer=$imagemServer -var imagemClient=$imagemClient -var imagemDB=$imagemDB ambiente/terraform/$ambiente"
 }
