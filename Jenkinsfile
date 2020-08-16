@@ -243,7 +243,7 @@ void realizarDeploy(String ambiente, String arquivoAmbiente, String imagemServer
   ServerContainerPort = carregarVariavelAmbiente("SERVER_CONTAINER_PORT", arquivoAmbiente)
   ClientHost = carregarVariavelAmbiente("CLIENT_HOST", arquivoAmbiente)
   ClientPort = carregarVariavelAmbiente("CLIENT_PORT", arquivoAmbiente)
-  ClientContanierPort = carregarVariavelAmbiente("CLIENT_CONTAINER_PORT", arquivoAmbiente)
+  ClientContainerPort = carregarVariavelAmbiente("CLIENT_CONTAINER_PORT", arquivoAmbiente)
   DBHost = carregarVariavelAmbiente("DB_HOST", arquivoAmbiente)
   DBPort = carregarVariavelAmbiente("DB_PORT", arquivoAmbiente)
   DBContainerPort = carregarVariavelAmbiente("DB_CONTAINER_PORT", arquivoAmbiente)
