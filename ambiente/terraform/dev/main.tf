@@ -14,13 +14,3 @@ resource "null_resource" "DeployDev" {
     command = "docker run --rm -d --name containerLocalClient --env-file ${var.arquivoAmbiente} -p ${var.PortClient}:${var.PortClientContainer} ${var.imagemClient}"
   }
 }
-
-
-DATABASE_SERVER_HOST=localhost
-DATABASE_SERVER_PORT=5432
-DATABASE_SERVER_CONTAINER_PORT=5432
-POSTGRES_USER=postgresuser
-POSTGRES_PASSWORD=postgrespwd
-POSTGRES_DB=conchayorodb
-DATABASE_SERVER_USER=conchayorouser
-DATABASE_SERVER_PASSWORD=conchayoropwd
