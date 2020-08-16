@@ -110,10 +110,11 @@ void runStepsCommitStage() {
   sh "npm config set registry ${NexusServer}/repository/npm-proxy/"
 					   
   sh "npm version $VERSION_NUMBER-$BUILD_NUMBER --prefix server"
-  // sh "npm install --prefix server"
+  sh "npm install --prefix server"
 
   sh "npm version $VERSION_NUMBER-$BUILD_NUMBER --prefix client"    
-  //sh "npm --loglevel info install --prefix client"
+  sh "npm --loglevel info install --prefix client"
+  sh "npm --loglevel info run build --prefix client"
   
   script {
 	    if (env.QUALITY_REPO_ENABLED == 'True')	{

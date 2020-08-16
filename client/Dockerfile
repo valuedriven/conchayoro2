@@ -4,11 +4,11 @@ WORKDIR /app
 
 COPY package*.json ./
 
-RUN npm install
+#RUN npm install
+
+#RUN npm run build
 
 COPY . .
-
-RUN npm run build
 
 FROM nginx:1.19.1-alpine as production-stage
 
