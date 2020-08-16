@@ -1,40 +1,39 @@
 
-variable "HostServer" {
+variable "APP_SERVER_HOST" {
   
 }
 
-variable "PortServer" {
+variable "APP_SERVER_PORT" {
   
 }
 
-variable "PortServerContainer" {
+variable "APP_SERVER_CONTAINER_PORT" {
   
 }
 
-variable "HostClient" {
+variable "APP_CLIENT_HOST" {
   
 }
 
-variable "PortClient" {
+variable "APP_CLIENT_PORT" {
   
 }
 
-variable "PortClientContainer" {
+variable "APP_CLIENT_CONTAINER_PORT" {
   
 }
 
-# variable "HostDB" {
+variable "DB_SERVER_HOST" {
   
-# }
+}
 
-# variable "PortDB" {
+variable "DB_SERVER_PORT" {
+
+}
+
+variable "DB_SERVER_CONTAINER_PORT" {
   
-# }
-
-# variable "PortDBContainer" {
-  
-# }
-
+}
 
 variable "arquivoAmbiente" {
   
