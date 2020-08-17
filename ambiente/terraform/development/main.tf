@@ -8,9 +8,9 @@ resource "null_resource" "DeployDev" {
     command = "docker run --rm -d --env-file ${var.envFileDB} --hostname ${var.DBHost} --name containerDB -p ${var.DBPort}:${var.DBContainerPort} ${var.imageDB}"
   }
   provisioner "local-exec" {
-    command = "docker run --rm -d --hostname ${var.ServerHost} --name containerServer --env-file ${var.envFileServer} -p ${var.ServerPort}:${var.ServerContainerPort} ${var.imageServer}"
+    command = "docker run --rm -d --env-file ${var.envFileServer} --hostname ${var.ServerHost} --name containerServer -p ${var.ServerPort}:${var.ServerContainerPort} ${var.imageServer}"
   }
   provisioner "local-exec" {
-    command = "docker run --rm -d --hostname ${var.ClientHost} --name containerClient --env-file ${var.envFileClient} -p ${var.ClientPort}:${var.ClientContainerPort} ${var.imageClient}"
+    command = "docker run --rm -d --env-file ${var.envFileClient} --hostname ${var.ClientHost} --name containerClient  -p ${var.ClientPort}:${var.ClientContainerPort} ${var.imageClient}"
   }
 }
