@@ -4,7 +4,7 @@ resource "null_resource" "DeployDev" {
     command = "sh ambiente/terraform/development/excluirContainerLocal.sh"
   }
   provisioner "local-exec" {
-    command = "docker run --rm -d --hostname ${var.DBHost} --name containerDB --env-file ${var.envFileServer} -p ${var.DBPort}:${var.DBContainerPort} ${var.imageDB}"
+    command = "docker run --rm -d --hostname ${var.DBHost} --name containerDB --env-file ${var.envFileDB} -p ${var.DBPort}:${var.DBContainerPort} ${var.imageDB}"
   }
   provisioner "local-exec" {
     command = "docker run --rm -d --hostname ${var.ServerHost} --name containerServer --env-file ${var.envFileServer} -p ${var.ServerPort}:${var.ServerContainerPort} ${var.imageServer}"

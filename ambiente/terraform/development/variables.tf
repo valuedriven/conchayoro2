@@ -39,6 +39,10 @@ variable "envFileServer" {
   
 }
 
+variable "envFileDB" {
+  
+}
+
 variable "envFileClient" {
   
 }
