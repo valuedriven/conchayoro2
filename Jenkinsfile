@@ -135,13 +135,13 @@ void runStepsCommitStage() {
   imageServer = "${env.IMAGE_REPO_USER}/${env.PROJECT_NAME}:${tagName}-server"
   imageClient = "${env.IMAGE_REPO_USER}/${env.PROJECT_NAME}:${tagName}-client"
 
-  def dockerCommand = "docker build -t "+imagemDB+" db"
+  def dockerCommand = "docker build -t "+imageDB+" db"
   sh dockerCommand
 
-  dockerCommand = "docker build -t "+imagemServer+" server"
+  dockerCommand = "docker build -t "+imageServer+" server"
   sh dockerCommand
 
-  dockerCommand = "docker build -t "+imagemClient+" client"
+  dockerCommand = "docker build -t "+imageClient+" client"
   sh dockerCommand
     
   imageRepository = "${env.IMAGE_REPO_PROTOCOL}${env.IMAGE_REPO_HOST}"
@@ -150,11 +150,11 @@ void runStepsCommitStage() {
     withCredentials([usernamePassword(credentialsId: ImageRepoCredentials, passwordVariable: 'ImageRepoPassword', usernameVariable: 'ImageRepoUser')]) {
 	
         sh "docker login -u ${ImageRepoUser} -p ${ImageRepoPassword}"
-        dockerCommand = "docker push "+imagemDB
+        dockerCommand = "docker push "+imageDB
         sh dockerCommand
-	      dockerCommand = "docker push "+imagemServer
+	      dockerCommand = "docker push "+imageServer
         sh dockerCommand
-        dockerCommand = "docker push "+imagemClient
+        dockerCommand = "docker push "+imageClient
         sh dockerCommand
     }
   }
@@ -174,7 +174,7 @@ void runStepsAceitacaoStage() {
   script {
 	  if (env.APP_SERVER_TEST_ENABLED == 'True') {
       println("Implantando no ambiente de testes...")
-      realizarDeploy("dev", "ambiente/.env-dev", imagemServer,imagemClient, imagemDB)
+      realizarDeploy("test")
       println("Implantação no ambiente de testes concluída...")
       sh "mvn failsafe:integration-test ${Settings}"
 	  }
@@ -186,9 +186,9 @@ void runStepsHomolocacaoStage() {
 	
   script {
 	  if (env.APP_SERVER_HOM_ENABLED == 'True') {
-      println("Implantando no ambiente de homologação...")
-      realizarDeploy("dev", "ambiente/.env-dev", imagemServer,imagemClient, imagemDB)
-      println("Implantação no ambiente de homologação concluída...")
+      println("Implantando no ambiente de validação...")
+      realizarDeploy("validation")
+      println("Implantação no ambiente de validação concluída...")
 	  } 
     input ( message: 'Autoriza promoção da build para produção?', ok: 'Autorizado', submitter: 'admin' )
   }
@@ -201,7 +201,7 @@ void runStepsProducaoStage() {
   script {
 	  if (env.APP_SERVER_PROD_ENABLED == 'True') {
       println("Implantando no ambiente de produção...")
-	    realizarDeploy("dev", "ambiente/.env-development", imagemServer,imagemClient, imagemDB)
+	    realizarDeploy("production")
       println("Implantação no ambiente de produção concluída...")
 	  }
   }
@@ -239,7 +239,7 @@ void selecionarBranch() {
 	
 }
 
-// void realizarDeploy(String ambiente, String arquivoAmbiente, String imagemServer, String imagemClient, String imagemDB) {  
+// void realizarDeploy(String ambiente, String arquivoAmbiente, String imageServer, String imageClient, String imageDB) {  
 void realizarDeploy(String ambiente) {
   envFileServer = "ambiente/.env-"+ambiente+"-server"
   envFileClient = "ambiente/.env-"+ambiente+"-client"
