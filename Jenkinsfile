@@ -10,7 +10,9 @@ pipeline {
 	  EmailRecipients = "${env.MAIL_RECIPIENTS}"         
     ProjectRepoCredentials = "${env.PROJECT_REPO_CREDENTIALS_ID}"
     ImageRepoCredentials = "${env.IMAGE_REPO_CREDENTIALS_ID}"
-    imagemComNomeCompleto = null
+    imagemDB = null
+    imagemServer = null
+    imagemClient = null
     AppServerHost = null
     AppServerPort = null
 
@@ -160,7 +162,7 @@ void runStepsCommitStage() {
   script {
 	  if (env.APP_SERVER_DEV_ENABLED == 'True') {
       println("Implantando no ambiente de desenvolvimento...")
-      realizarDeploy("dev", "ambiente/.env-dev", imagemServer,imagemClient, imagemDB)
+      realizarDeploy("development")
       println("Implantação no ambiente de desenvolvimento concluída...")
 	  }
   }
@@ -199,7 +201,7 @@ void runStepsProducaoStage() {
   script {
 	  if (env.APP_SERVER_PROD_ENABLED == 'True') {
       println("Implantando no ambiente de produção...")
-	    realizarDeploy("dev", "ambiente/.env-dev", imagemServer,imagemClient, imagemDB)
+	    realizarDeploy("dev", "ambiente/.env-development", imagemServer,imagemClient, imagemDB)
       println("Implantação no ambiente de produção concluída...")
 	  }
   }
@@ -237,18 +239,21 @@ void selecionarBranch() {
 	
 }
 
-void realizarDeploy(String ambiente, String arquivoAmbiente, String imagemServer, String imagemClient, String imagemDB) {  
-  ServerHost = carregarVariavelAmbiente("SERVER_HOST", arquivoAmbiente)
-  ServerPort = carregarVariavelAmbiente("SERVER_PORT", arquivoAmbiente)
-  ServerContainerPort = carregarVariavelAmbiente("SERVER_CONTAINER_PORT", arquivoAmbiente)
-  ClientHost = carregarVariavelAmbiente("CLIENT_HOST", arquivoAmbiente)
-  ClientPort = carregarVariavelAmbiente("CLIENT_PORT", arquivoAmbiente)
-  ClientContainerPort = carregarVariavelAmbiente("CLIENT_CONTAINER_PORT", arquivoAmbiente)
-  DBHost = carregarVariavelAmbiente("DB_HOST", arquivoAmbiente)
-  DBPort = carregarVariavelAmbiente("DB_PORT", arquivoAmbiente)
-  DBContainerPort = carregarVariavelAmbiente("DB_CONTAINER_PORT", arquivoAmbiente)
-
+// void realizarDeploy(String ambiente, String arquivoAmbiente, String imagemServer, String imagemClient, String imagemDB) {  
+void realizarDeploy(String ambiente) {
+  envFileServer = "ambiente/.env-"+ambiente+"-server"
+  envFileClient = "ambiente/.env-"+ambiente+"-client"
+  ServerHost = carregarVariavelAmbiente("SERVER_HOST", envFileServer)
+  ServerPort = carregarVariavelAmbiente("SERVER_PORT", envFileServer)
+  ServerContainerPort = carregarVariavelAmbiente("SERVER_CONTAINER_PORT", envFileServer)
+  DBHost = carregarVariavelAmbiente("DB_HOST", envFileServer)
+  DBPort = carregarVariavelAmbiente("DB_PORT", envFileServer)
+  DBContainerPort = carregarVariavelAmbiente("DB_CONTAINER_PORT", envFileServer)
+  ClientHost = carregarVariavelAmbiente("CLIENT_HOST", envFileClient)
+  ClientPort = carregarVariavelAmbiente("CLIENT_PORT", envFileClient)
+  ClientContainerPort = carregarVariavelAmbiente("CLIENT_CONTAINER_PORT", envFileClient)
+  
   sh "terraform init ambiente/terraform/$ambiente"
-  sh "terraform plan -var arquivoAmbiente=$arquivoAmbiente -var ServerHost=$ServerHost -var ServerPort=$ServerPort -var ServerContainerPort=$ServerContainerPort -var ClientHost=$ClientHost -var ClientPort=$ClientPort -var ClientContainerPort=$ClientContainerPort -var DBHost=$DBHost -var DBPort=$DBPort -var DBContainerPort=$DBContainerPort -var imagemServer=$imagemServer -var imagemClient=$imagemClient -var imagemDB=$imagemDB ambiente/terraform/$ambiente"
-  sh "terraform apply -auto-approve -var arquivoAmbiente=$arquivoAmbiente -var ServerHost=$ServerHost -var ServerPort=$ServerPort -var ServerContainerPort=$ServerContainerPort -var ClientHost=$ClientHost -var ClientPort=$ClientPort -var ClientContainerPort=$ClientContainerPort -var DBHost=$DBHost -var DBPort=$DBPort -var DBContainerPort=$DBContainerPort -var imagemServer=$imagemServer -var imagemClient=$imagemClient -var imagemDB=$imagemDB ambiente/terraform/$ambiente"
+  sh "terraform plan -var envFileServer=$envFileServer -var envFileClient=$envFileClient -var ServerHost=$ServerHost -var ServerPort=$ServerPort -var ServerContainerPort=$ServerContainerPort -var ClientHost=$ClientHost -var ClientPort=$ClientPort -var ClientContainerPort=$ClientContainerPort -var DBHost=$DBHost -var DBPort=$DBPort -var DBContainerPort=$DBContainerPort -var imagemServer=$imagemServer -var imagemClient=$imagemClient -var imagemDB=$imagemDB ambiente/terraform/$ambiente"
+  sh "terraform apply -auto-approve -var envFileServer=$envFileServer -var envFileClient=$envFileClient -var ServerHost=$ServerHost -var ServerPort=$ServerPort -var ServerContainerPort=$ServerContainerPort -var ClientHost=$ClientHost -var ClientPort=$ClientPort -var ClientContainerPort=$ClientContainerPort -var DBHost=$DBHost -var DBPort=$DBPort -var DBContainerPort=$DBContainerPort -var imagemServer=$imagemServer -var imagemClient=$imagemClient -var imagemDB=$imagemDB ambiente/terraform/$ambiente"
 }
