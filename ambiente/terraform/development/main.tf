@@ -4,12 +4,12 @@ resource "null_resource" "DeployDev" {
     command = "sh ambiente/terraform/dev/excluirContainerLocal.sh"
   }
   provisioner "local-exec" {
-    command = "docker run --rm -d --hostname ${var.DBHost} --name ${var.DBHost} --env-file ${var.arquivoAmbiente} -p ${var.DBPort}:${var.DBContainerPort} ${var.imagemDB}"
+    command = "docker run --rm -d --hostname ${var.DBHost} --name containerDB -p ${var.DBPort}:${var.DBContainerPort} ${var.imageDB}"
   }
   provisioner "local-exec" {
-    command = "docker run --rm -d --hostname ${var.ServerHost} --name ${var.ServerHost} --env-file ${var.arquivoAmbiente} -p ${var.ServerPort}:${var.ServerContainerPort} ${var.imagemServer}"
+    command = "docker run --rm -d --hostname ${var.ServerHost} --name containerServer --env-file ${var.envFileServer} -p ${var.ServerPort}:${var.ServerContainerPort} ${var.imageServer}"
   }
   provisioner "local-exec" {
-    command = "docker run --rm -d --hostname ${var.ClientHost} --name ${var.ClientHost} --env-file ${var.arquivoAmbiente} -p ${var.ClientPort}:${var.ClientContainerPort} ${var.imagemClient}"
+    command = "docker run --rm -d --hostname ${var.ClientHost} --name containerClient --env-file ${var.envFileClient} -p ${var.ClientPort}:${var.ClientContainerPort} ${var.imageClient}"
   }
 }

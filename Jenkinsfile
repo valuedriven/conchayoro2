@@ -249,11 +249,11 @@ void realizarDeploy(String ambiente) {
   DBHost = carregarVariavelAmbiente("DB_HOST", envFileServer)
   DBPort = carregarVariavelAmbiente("DB_PORT", envFileServer)
   DBContainerPort = carregarVariavelAmbiente("DB_CONTAINER_PORT", envFileServer)
-  ClientHost = carregarVariavelAmbiente("CLIENT_HOST", envFileClient)
-  ClientPort = carregarVariavelAmbiente("CLIENT_PORT", envFileClient)
+  ClientHost = carregarVariavelAmbiente("VUE_APP_HOST", envFileClient)
+  ClientPort = carregarVariavelAmbiente("VUE_APP_PORT", envFileClient)
   ClientContainerPort = carregarVariavelAmbiente("CLIENT_CONTAINER_PORT", envFileClient)
   
   sh "terraform init ambiente/terraform/$ambiente"
-  sh "terraform plan -var envFileServer=$envFileServer -var envFileClient=$envFileClient -var ServerHost=$ServerHost -var ServerPort=$ServerPort -var ServerContainerPort=$ServerContainerPort -var ClientHost=$ClientHost -var ClientPort=$ClientPort -var ClientContainerPort=$ClientContainerPort -var DBHost=$DBHost -var DBPort=$DBPort -var DBContainerPort=$DBContainerPort -var imagemServer=$imagemServer -var imagemClient=$imagemClient -var imagemDB=$imagemDB ambiente/terraform/$ambiente"
-  sh "terraform apply -auto-approve -var envFileServer=$envFileServer -var envFileClient=$envFileClient -var ServerHost=$ServerHost -var ServerPort=$ServerPort -var ServerContainerPort=$ServerContainerPort -var ClientHost=$ClientHost -var ClientPort=$ClientPort -var ClientContainerPort=$ClientContainerPort -var DBHost=$DBHost -var DBPort=$DBPort -var DBContainerPort=$DBContainerPort -var imagemServer=$imagemServer -var imagemClient=$imagemClient -var imagemDB=$imagemDB ambiente/terraform/$ambiente"
+  sh "terraform plan -var envFileServer=$envFileServer -var envFileClient=$envFileClient -var ServerHost=$ServerHost -var ServerPort=$ServerPort -var ServerContainerPort=$ServerContainerPort -var ClientHost=$ClientHost -var ClientPort=$ClientPort -var ClientContainerPort=$ClientContainerPort -var DBHost=$DBHost -var DBPort=$DBPort -var DBContainerPort=$DBContainerPort -var imageServer=$imageServer -var imageClient=$imageClient -var imageDB=$imageDB ambiente/terraform/$ambiente"
+  sh "terraform apply -auto-approve -var envFileServer=$envFileServer -var envFileClient=$envFileClient -var ServerHost=$ServerHost -var ServerPort=$ServerPort -var ServerContainerPort=$ServerContainerPort -var ClientHost=$ClientHost -var ClientPort=$ClientPort -var ClientContainerPort=$ClientContainerPort -var DBHost=$DBHost -var DBPort=$DBPort -var DBContainerPort=$DBContainerPort -var imageServer=$imageServer -var imageClient=$imageClient -var imageDB=$imageDB ambiente/terraform/$ambiente"
 }

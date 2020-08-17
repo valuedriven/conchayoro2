@@ -35,19 +35,23 @@ variable "DBContainerPort" {
   
 }
 
-variable "arquivoAmbiente" {
+variable "envFileServer" {
   
 }
 
-variable "imagemServer" {
+variable "envFileClient" {
   
 }
 
-variable "imagemClient" {
+variable "imageServer" {
   
 }
 
-variable "imagemDB" {
+variable "imageClient" {
+  
+}
+
+variable "imageDB" {
   
 }
 
