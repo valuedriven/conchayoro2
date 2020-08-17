@@ -10,9 +10,9 @@ pipeline {
 	  EmailRecipients = "${env.MAIL_RECIPIENTS}"         
     ProjectRepoCredentials = "${env.PROJECT_REPO_CREDENTIALS_ID}"
     ImageRepoCredentials = "${env.IMAGE_REPO_CREDENTIALS_ID}"
-    imagemDB = null
-    imagemServer = null
-    imagemClient = null
+    imageDB = null
+    imageServer = null
+    imageClient = null
     AppServerHost = null
     AppServerPort = null
 
@@ -131,9 +131,9 @@ void runStepsCommitStage() {
     sh "git push https://${PROJECT_REPO_USER}@${RepoHost} --follow-tags"
   }
 
-  imagemDB = "${env.IMAGE_REPO_USER}/${env.PROJECT_NAME}:${tagName}-db"      
-  imagemServer = "${env.IMAGE_REPO_USER}/${env.PROJECT_NAME}:${tagName}-server"
-  imagemClient = "${env.IMAGE_REPO_USER}/${env.PROJECT_NAME}:${tagName}-client"
+  imageDB = "${env.IMAGE_REPO_USER}/${env.PROJECT_NAME}:${tagName}-db"      
+  imageServer = "${env.IMAGE_REPO_USER}/${env.PROJECT_NAME}:${tagName}-server"
+  imageClient = "${env.IMAGE_REPO_USER}/${env.PROJECT_NAME}:${tagName}-client"
 
   def dockerCommand = "docker build -t "+imagemDB+" db"
   sh dockerCommand
