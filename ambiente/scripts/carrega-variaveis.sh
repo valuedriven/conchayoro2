@@ -2,9 +2,9 @@
 
 echo "================"
 
-echo $0
+echo $1
 
-if [ -f $0 ]
+if [ -f $1 ]
 then
-  export $(sed 's/[[:blank:]]//g; /^#/d' $0 | xargs)
+  export $(sed 's/[[:blank:]]//g; /^#/d' $1 | xargs)
 fi
