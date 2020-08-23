@@ -208,7 +208,7 @@ void runStepsProducaoStage() {
 
 }
 
-String carregarVariavelAmbiente(String parametro, String arquivo) {
+String lerVariavelAmbiente(String parametro, String arquivo) {
 
   runCmd = "cat "+arquivo+" | grep "+parametro+" | awk -F \'=\' \'{print \$2}\'"
 	valorParametro = sh (    
@@ -216,6 +216,16 @@ String carregarVariavelAmbiente(String parametro, String arquivo) {
 	)
   valorParametro = valorParametro.replaceAll("[^\\.A-Za-z0-9-_]", "");
 	return valorParametro
+			 
+}
+
+void carregarVariaveisDeArquivo(String arquivo) {
+
+  runCmd = "export $(grep -v '^#' "+arquivo+" | xargs -d '\n')"
+
+	valorParametro = sh (    
+		script: runCmd, returnStdout: true
+	)
 			 
 }
 
@@ -243,17 +253,20 @@ void realizarDeploy(String ambiente) {
   envFileServer = "ambiente/.env-"+ambiente+"-server"
   envFileClient = "ambiente/.env-"+ambiente+"-client"
   envFileDB = "ambiente/.env-"+ambiente+"-db"
-  ServerHost = carregarVariavelAmbiente("SERVER_HOST", envFileServer)
-  ServerPort = carregarVariavelAmbiente("SERVER_PORT", envFileServer)
-  ServerContainerPort = carregarVariavelAmbiente("SERVER_CONTAINER_PORT", envFileServer)
-  DBHost = carregarVariavelAmbiente("DB_HOST", envFileDB)
-  DBPort = carregarVariavelAmbiente("DB_PORT", envFileDB)
-  DBContainerPort = carregarVariavelAmbiente("DB_CONTAINER_PORT", envFileDB)
-  POSTGRES_PASSWORD = carregarVariavelAmbiente("POSTGRES_PASSWORD", envFileDB)
-  ClientHost = carregarVariavelAmbiente("VUE_APP_HOST", envFileClient)
-  ClientPort = carregarVariavelAmbiente("VUE_APP_PORT", envFileClient)
-  ClientContainerPort = carregarVariavelAmbiente("CLIENT_CONTAINER_PORT", envFileClient)
-  
+  ServerHost = lerVariavelAmbiente  ("SERVER_HOST", envFileServer)
+  ServerPort = lerVariavelAmbiente  ("SERVER_PORT", envFileServer)
+  ServerContainerPort = lerVariavelAmbiente  ("SERVER_CONTAINER_PORT", envFileServer)
+  DBHost = lerVariavelAmbiente  ("DB_HOST", envFileDB)
+  DBPort = lerVariavelAmbiente  ("DB_PORT", envFileDB)
+  DBContainerPort = lerVariavelAmbiente  ("DB_CONTAINER_PORT", envFileDB)
+  POSTGRES_PASSWORD = lerVariavelAmbiente  ("POSTGRES_PASSWORD", envFileDB)
+  ClientHost = lerVariavelAmbiente  ("VUE_APP_HOST", envFileClient)
+  ClientPort = lerVariavelAmbiente  ("VUE_APP_PORT", envFileClient)
+  ClientContainerPort = lerVariavelAmbiente  ("CLIENT_CONTAINER_PORT", envFileClient)
+
+  carregarVariaveisDeArquivo(envFileServer)
+  sh "printenv"
+
   sh "terraform init ambiente/terraform/$ambiente"
   sh "terraform plan -var envFileServer=$envFileServer -var envFileDB=$envFileDB -var envFileClient=$envFileClient -var ServerHost=$ServerHost -var ServerPort=$ServerPort -var ServerContainerPort=$ServerContainerPort -var ClientHost=$ClientHost -var ClientPort=$ClientPort -var ClientContainerPort=$ClientContainerPort -var DBHost=$DBHost -var DBPort=$DBPort -var DBContainerPort=$DBContainerPort -var POSTGRES_PASSWORD=$POSTGRES_PASSWORD -var imageServer=$imageServer -var imageClient=$imageClient -var imageDB=$imageDB ambiente/terraform/$ambiente"
   sh "terraform apply -auto-approve -var envFileServer=$envFileServer -var envFileDB=$envFileDB -var envFileClient=$envFileClient -var ServerHost=$ServerHost -var ServerPort=$ServerPort -var ServerContainerPort=$ServerContainerPort -var ClientHost=$ClientHost -var ClientPort=$ClientPort -var ClientContainerPort=$ClientContainerPort -var DBHost=$DBHost -var DBPort=$DBPort -var DBContainerPort=$DBContainerPort -var POSTGRES_PASSWORD=$POSTGRES_PASSWORD -var imageServer=$imageServer -var imageClient=$imageClient -var imageDB=$imageDB ambiente/terraform/$ambiente"
