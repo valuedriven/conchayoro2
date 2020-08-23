@@ -1,5 +1,5 @@
 #!/bin/sh
 if [ -f $0 ]
 then
-  export $(cat $0 | sed 's/#.*//g' | xargs)
+  export $(sed 's/[[:blank:]]//g; /^#/d' .env | xargs)
 fi
