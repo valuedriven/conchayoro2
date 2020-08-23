@@ -2,6 +2,9 @@
 
 containerId=$(docker ps -q --filter name=$0})
 
+echo "Container 1"
+echo $containerId
+
 if [ ! -z $containerId ]
 then
  docker kill $containerId
@@ -9,10 +12,16 @@ fi
 
 containerId=$(docker ps -q --filter name=$1)
 
+echo "Container 2"
+echo $containerId
+
 if [ ! -z $containerId ]
 then
  docker kill $containerId
 fi
+
+echo "Container 3"
+echo $containerId
 
 containerId=$(docker ps -q --filter name=$2)
 
