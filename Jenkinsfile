@@ -31,7 +31,7 @@ pipeline {
     stage("Commit") {
        steps {  
         //  runStepsCommitStage()
-        carregarVariaveisDeArquivo(envFileServer)
+        carregarVariaveisDeArquivo("ambiente/.env-development-server")
         sh "printenv"
        }                   
     }
