@@ -35,6 +35,10 @@ variable "DBContainerPort" {
   
 }
 
+variable "POSTGRES_PASSWORD" {
+  
+}
+
 variable "envFileServer" {
   
 }
