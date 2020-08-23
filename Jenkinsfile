@@ -221,7 +221,7 @@ String lerVariavelAmbiente(String parametro, String arquivo) {
 
 void carregarVariaveisDeArquivo(String arquivo) {
 
-  runCmd = "export $(grep -v '^#' "+arquivo+" | xargs -d '\n')"
+  runCmd = "export \$(grep -v '^#' "+arquivo+" | xargs -d '\n')"
 
 	valorParametro = sh (    
 		script: runCmd, returnStdout: true
