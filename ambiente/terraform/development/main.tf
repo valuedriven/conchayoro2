@@ -1,11 +1,7 @@
 resource "null_resource" "DeployDev" {
   
   provisioner "local-exec" {
-    command = "sh ambiente/terraform/development/excluirContainerLocal.sh"
-  }
-
-  provisioner "local-exec" {
-    command = "docker network create localNetwork || true"
+    command = "sh ambiente/terraform/development/inicia-ambiente.sh ${var.ClientHost} ${var.ServerHost} ${var.DBHost}"
   }
 
   provisioner "local-exec" {
