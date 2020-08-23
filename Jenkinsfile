@@ -221,7 +221,7 @@ String lerVariavelAmbiente(String parametro, String arquivo) {
 
 void carregarVariaveisDeArquivo(String arquivo) {
 
-  runCmd = "./ambiente/scripts/carrega-variaveis.sh "+arquivo
+  runCmd = "sh ambiente/scripts/carrega-variaveis.sh "+arquivo
   echo "======================"
   echo runCmd
 
