@@ -29,8 +29,10 @@ pipeline {
   stages {
 
     stage("Commit") {
-       steps {         
-         runStepsCommitStage()
+       steps {  
+        //  runStepsCommitStage()
+        carregarVariaveisDeArquivo(envFileServer)
+        sh "printenv"
        }                   
     }
             
