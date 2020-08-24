@@ -223,8 +223,8 @@ String lerVariavelAmbiente(String parametro, String arquivo) {
 
 void carregarVariaveisDeArquivo(String arquivo) {
   
-  //runCmd = "sh ambiente/scripts/carrega-variaveis.sh "+arquivo
-  runCmd = "export \$(sed 's/[[:blank:]]//g; /^#/d' +"arquivo+" | xargs)"
+  runCmd = "sh ambiente/scripts/carrega-variaveis.sh "+arquivo
+  // runCmd = "export \$(sed 's/[[:blank:]]//g; /^#/d' +"arquivo+" | xargs)"
   echo "======================"
   echo runCmd
 
