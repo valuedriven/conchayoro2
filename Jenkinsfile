@@ -279,10 +279,13 @@ void realizarDeploy(String ambiente) {
 }
 
 def loadEnvironmentVariables(path){
-    def props = readProperties  file: path
-    keys= props.keySet()
-    for(key in keys) {
-        value = props["${key}"]
-        env."${key}" = "${value}"
+    properties = new Properties()
+    File propertiesFile = new File(path)
+    properties.load(propertiesFile.newDataInputStream())
+    Set<Object> keys = properties.keySet();
+    for(Object k:keys){
+    String key = (String)k;
+    String value =(String) properties.getProperty(key)
+    env."${key}" = "${value}"
     }
 } 
