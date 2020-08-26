@@ -31,7 +31,8 @@ pipeline {
     stage("Commit") {
        steps {  
         //  runStepsCommitStage()
-        carregarVariaveisDeArquivo("ambiente/.env-development-server")
+        loadEnvironmentVariables("ambiente/.env-development-server")
+        //carregarVariaveisDeArquivo("ambiente/.env-development-server")
         sh "printenv"
        }                   
     }
@@ -276,3 +277,12 @@ void realizarDeploy(String ambiente) {
   sh "terraform plan -var envFileServer=$envFileServer -var envFileDB=$envFileDB -var envFileClient=$envFileClient -var ServerHost=$ServerHost -var ServerPort=$ServerPort -var ServerContainerPort=$ServerContainerPort -var ClientHost=$ClientHost -var ClientPort=$ClientPort -var ClientContainerPort=$ClientContainerPort -var DBHost=$DBHost -var DBPort=$DBPort -var DBContainerPort=$DBContainerPort -var POSTGRES_PASSWORD=$POSTGRES_PASSWORD -var imageServer=$imageServer -var imageClient=$imageClient -var imageDB=$imageDB ambiente/terraform/$ambiente"
   sh "terraform apply -auto-approve -var envFileServer=$envFileServer -var envFileDB=$envFileDB -var envFileClient=$envFileClient -var ServerHost=$ServerHost -var ServerPort=$ServerPort -var ServerContainerPort=$ServerContainerPort -var ClientHost=$ClientHost -var ClientPort=$ClientPort -var ClientContainerPort=$ClientContainerPort -var DBHost=$DBHost -var DBPort=$DBPort -var DBContainerPort=$DBContainerPort -var POSTGRES_PASSWORD=$POSTGRES_PASSWORD -var imageServer=$imageServer -var imageClient=$imageClient -var imageDB=$imageDB ambiente/terraform/$ambiente"
 }
+
+def loadEnvironmentVariables(path){
+    def props = readProperties  file: path
+    keys= props.keySet()
+    for(key in keys) {
+        value = props["${key}"]
+        env."${key}" = "${value}"
+    }
+} 
